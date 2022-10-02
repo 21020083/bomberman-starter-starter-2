@@ -73,11 +73,13 @@ public class Kondoria extends MovingObject{
 
         endTime = System.currentTimeMillis();
         count ++;
-       // if(count >= Sprite.SCALED_SIZE * 5){
-           // move = Move.values()[new Random().nextInt(Move.values().length)];
-           // curTime = endTime;
-            //count = 0;
-        //}
+        int dx = x/Sprite.SCALED_SIZE;
+        int dy = y / Sprite.SCALED_SIZE;
+        if(count >= Sprite.SCALED_SIZE * 3 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE ==y)){
+            move = Move.values()[new Random().nextInt(Move.values().length)];
+            curTime = endTime;
+            count = 0;
+        }
 
     }
 
@@ -151,13 +153,13 @@ public class Kondoria extends MovingObject{
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 6)/Sprite.SCALED_SIZE;
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
         int toprightY = (y+6)/Sprite.SCALED_SIZE;
 
         int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
         int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 6)/Sprite.SCALED_SIZE;
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
@@ -169,19 +171,19 @@ public class Kondoria extends MovingObject{
             switch (move) {
                 case UP:
                     y++;
-                    move_left();
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
                     y--;
-                    move_right();
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x--;
-                    move_up();
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x++;
-                    move_down();
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
