@@ -3,6 +3,9 @@ package uet.oop.bomberman.entities.movingobject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Brick;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -149,7 +152,7 @@ public class Kondoria extends MovingObject{
         }
         return false;
     }
-    public  boolean CollisionwithWall(char[][] Map) {
+    public  boolean CollisionwithWall(Entity[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
@@ -163,10 +166,10 @@ public class Kondoria extends MovingObject{
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
-        if(Map[topleftY][topleftX] == '#' || Map[toprightY][toprightX] == '#' ||
-                Map[bottomrightY][bottomrightX] == '#' || Map[bottomleftY][bottomleftX] == '#'||
-        Map[topleftY][topleftX] == '*' || Map[toprightY][toprightX] == '*' ||
-                Map[bottomrightY][bottomrightX] == '*' || Map[bottomleftY][bottomleftX] == '*'){
+        if(Map[topleftY][topleftX] instanceof Wall || Map[toprightY][toprightX] instanceof Wall||
+                Map[bottomrightY][bottomrightX] instanceof Wall|| Map[bottomleftY][bottomleftX]instanceof Wall||
+        Map[topleftY][topleftX] instanceof Brick || Map[toprightY][toprightX] instanceof Brick ||
+                Map[bottomrightY][bottomrightX] instanceof Brick|| Map[bottomleftY][bottomleftX] instanceof Brick){
             count = 0;
             switch (move) {
                 case UP:

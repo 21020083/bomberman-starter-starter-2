@@ -9,10 +9,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bomber extends MovingObject {
 
@@ -21,6 +24,7 @@ public class Bomber extends MovingObject {
     private final ArrayList<Image> down_movement = new ArrayList<>();
     private final ArrayList<Image> left_movement = new ArrayList<>();
     private final ArrayList<Image> right_movement = new ArrayList<>();
+    private List<Bomb> boms = new ArrayList<>();
     private int index;
     private double AniCount;
     private boolean moving = false;
@@ -48,6 +52,7 @@ public class Bomber extends MovingObject {
         index = 0;
         AniCount = 0;
         setSpeed(2);
+
         up = false;
         down = false;
         left = false;
@@ -78,7 +83,8 @@ public class Bomber extends MovingObject {
 
     }
     public void eventHandle(Scene scene) {
-
+        int centerX = (x+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
+        int centerY = (y+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -99,6 +105,7 @@ public class Bomber extends MovingObject {
                         right = true;
                         moving = true;
                         break;
+
                     default:
                         moving = false;
                         break;
@@ -131,6 +138,8 @@ public class Bomber extends MovingObject {
                         right = false;
                         moving = false;
                         break;
+                    case ENTER:
+                        boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
                     default:
                         moving = false;
                         break;
@@ -165,7 +174,9 @@ public class Bomber extends MovingObject {
     }
     @Override
     public void render(GraphicsContext gc) {
+        System.out.println(boms.size());
         gc.drawImage(img, x, y);
+        boms.forEach(g->g.render(gc));
     }
     @Override
     public  boolean CollisionwithWall() {
@@ -180,7 +191,7 @@ public class Bomber extends MovingObject {
         }
         return false;
     }
-    public  boolean CollisionwithWall(char[][] Map) {
+    public  boolean CollisionwithWall(Entity[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
@@ -194,14 +205,31 @@ public class Bomber extends MovingObject {
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
-        if(Map[topleftY][topleftX] == '#' || Map[toprightY][toprightX] == '#' ||
-                Map[bottomrightY][bottomrightX] == '#' || Map[bottomleftY][bottomleftX] == '#'){
+        if(Map[topleftY][topleftX]  instanceof Wall || Map[toprightY][toprightX] instanceof Wall ||
+                Map[bottomrightY][bottomrightX] instanceof Wall || Map[bottomleftY][bottomleftX] instanceof Wall){
             moving = false;
             if(up) y+=speed;
             if(down) y-=speed;
             if(left) x+=speed;
             if(right) x-=speed;
             return true;
+        }
+        return false;
+    }
+    public boolean ContactwithEnemy(List<MovingObject>Enemy) {
+
+        double centerX = x + Sprite.DEFAULT_SIZE;
+        double centerY = y + Sprite.DEFAULT_SIZE;
+        double r1 = Sprite.DEFAULT_SIZE - 4;
+
+        for(MovingObject e : Enemy) {
+            double Ex = e.getX() +Sprite.DEFAULT_SIZE;
+            double Ey = e.getY() + Sprite.DEFAULT_SIZE;
+            double r2 =Sprite.DEFAULT_SIZE;
+            double distance = Math.sqrt((centerX-Ex) * (centerX-Ex) + (centerY-Ey)*(centerY-Ey));
+            if(distance <= r1 + r2) {
+                return true;
+            }
         }
         return false;
     }

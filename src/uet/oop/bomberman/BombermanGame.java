@@ -23,7 +23,7 @@ import java.util.List;
 public class BombermanGame extends Application {
     
     public static final int WIDTH = 31;
-    public static char[][] Map = new char[13][31];
+    public static Entity[][] Map = new Entity[13][31];
     public static final int HEIGHT = 13;
     public String path = "/levels/Level1.txt";
     
@@ -34,6 +34,7 @@ public class BombermanGame extends Application {
     private Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
     private Kondoria kondoria = new Kondoria(27,6,Sprite.kondoria_right1.getFxImage());
     private List<Entity> stillObjects = new ArrayList<>();
+    private List<Brick> brick  =new ArrayList<>();
 
 
 
@@ -73,7 +74,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
         loadMap();
-        createMap();
+
 
         enemy.add(balloom);
         enemy.add(kondoria);
@@ -89,7 +90,14 @@ public class BombermanGame extends Application {
             while(i < 13) {
                 cbuf = br.readLine().toCharArray();
                 for(int j = 0; j < 31; j++) {
-                    Map[i][j] = cbuf[j];
+                    if(cbuf[j] == '*'){
+                        Map[i][j] = new Grass(j, i, Sprite.grass.getFxImage());
+                        brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                    } else if (cbuf[j] == '#') {
+                        Map[i][j] = new Wall(j, i, Sprite.wall.getFxImage());
+                    } else {
+                        Map[i][j] = new Grass(j, i, Sprite.grass.getFxImage());
+                    }
                 }
                 i++;
             }
@@ -101,18 +109,10 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity object;
-                if (Map[j][i]== '#') {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                }  else if ( Map[j][i] == '*') {
-                    object = new Brick(i, j);
-                } else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
+    public void renderMap(GraphicsContext gc) {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                Map[i][j].render(gc);
             }
         }
     }
@@ -120,13 +120,21 @@ public class BombermanGame extends Application {
     public void update() {
         enemy.forEach(Entity::update);
         bomberman.update();
+        brick.forEach(Brick::update);
+        if(!brick.isEmpty() && brick.get(0).count>1000)
+            brick.remove(0);
+        if(bomberman.ContactwithEnemy(enemy)) {
+            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        }
 
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        stillObjects.forEach(g -> g.render(gc));
+        renderMap(gc);
+        brick.forEach(g->g.render(gc));
         enemy.forEach(g -> g.render(gc));
         bomberman.render(gc);
+
     }
 }
