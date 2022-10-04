@@ -80,6 +80,11 @@ public class Bomber extends MovingObject {
         if(CollisionwithWall(BombermanGame.Map)){
             index = 0;
         }
+        for(Bomb b : boms) {
+            if(b.duration == 100) {
+                b = null;
+            }
+        }
 
     }
     public void eventHandle(Scene scene) {
