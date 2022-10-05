@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.movingobject.Balloom;
@@ -107,6 +108,18 @@ public class BombermanGame extends Application {
 
         }
     }
+    public void updateMap(){
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                if(Map[i][j] instanceof Brick && ((Brick) Map[i][j]).destroyed){
+                    Map[i][j].update();
+                    if(((Brick) Map[i][j]).duration >= 15){
+                        Map[i][j] = new Grass(j,i,Sprite.grass.getFxImage());
+                    }
+                }
+            }
+        }
+    }
 
     public void renderMap(GraphicsContext gc) {
         for (int i = 0; i < HEIGHT; i++) {
@@ -123,11 +136,13 @@ public class BombermanGame extends Application {
         if(bomberman.ContactwithEnemy(enemy)) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
+        updateMap();
 
     }
 
     public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.GREEN);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         renderMap(gc);
         //brick.forEach(g->g.render(gc));
         enemy.forEach(g -> g.render(gc));

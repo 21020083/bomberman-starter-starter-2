@@ -16,16 +16,12 @@ public class Bomb extends Entity{
     int upx, upy;
     int downx, downy;
     public int duration = 0;
-    private int length = 2;
+    private int length ;
     private int leftLength = 0;
     private int rightLength = 0;
     private int topLength = 0;
     private int bottomLength = 0;
     private List<Image> exploded = new ArrayList<>();
-    private List<Image> left = new ArrayList<>();
-    private List<Image> right = new ArrayList<>();
-    private List<Image> up = new ArrayList<>();
-    private List<Image> down = new ArrayList<>();
     private int index;
     private int AniCount;
     public Bomb(int x, int y, Image img){
@@ -42,6 +38,7 @@ public class Bomb extends Entity{
 
         AniCount = 0;
         index = 0;
+        length = 5;
 
         SetExplosion();
 
@@ -71,11 +68,12 @@ public class Bomb extends Entity{
             AniCount++;
             if (AniCount <= 6) {
                 renderExplosion(gc);
+                destroyBrick(BombermanGame.Map);
             } else if (AniCount <= 12) {
                 renderExplosion1(gc);
             } else if (AniCount <= 18) {
                 renderExplosion2(gc);
-                destroyBrick(BombermanGame.Map);
+
             }
 
 
@@ -116,100 +114,100 @@ public class Bomb extends Entity{
 
 
         if(leftLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_left_last.getFxImage(),x-Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_left_last.getFxImage(),x-Sprite.SCALED_SIZE*leftLength,y);
         }
         if(rightLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_right_last.getFxImage(),x+Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_right_last.getFxImage(),x+Sprite.SCALED_SIZE*rightLength,y);
         }
         if(topLength > 0) {
-            gc.drawImage(Sprite.explosion_vertical_top_last.getFxImage(),x,-Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_top_last.getFxImage(),x,-Sprite.SCALED_SIZE*topLength + y);
         }
         if(bottomLength > 0){
-            gc.drawImage(Sprite.explosion_vertical_down_last.getFxImage(),x,Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_down_last.getFxImage(),x,Sprite.SCALED_SIZE*bottomLength + y);
         }
-        int l = leftLength, r = rightLength, t =topLength, b = bottomLength;
-        while(l > 0){
-            gc.drawImage(Sprite.explosion_horizontal.getFxImage(),x-Sprite.SCALED_SIZE,y);
-            l--;
+        int l = 1, r = 1, t = 1, b = 1;
+        while(l < leftLength){
+            gc.drawImage(Sprite.explosion_horizontal.getFxImage(),x-Sprite.SCALED_SIZE*l,y);
+            l++;
         }
-        while(r > 0){
-            r--;
-            gc.drawImage(Sprite.explosion_horizontal.getFxImage(),x+Sprite.SCALED_SIZE,y);
+        while(r < rightLength){
+            gc.drawImage(Sprite.explosion_horizontal.getFxImage(),x+Sprite.SCALED_SIZE*r,y);
+            r++;
         }
-        while (t > 0) {
-            t--;
-            gc.drawImage(Sprite.explosion_vertical.getFxImage(), x,-Sprite.SCALED_SIZE + y);
+        while (t < topLength) {
+            gc.drawImage(Sprite.explosion_vertical.getFxImage(), x,-Sprite.SCALED_SIZE*t + y);
+            t++;
         }
-        while (b > 0) {
-            b--;
-            gc.drawImage(Sprite.explosion_vertical.getFxImage(), x,+Sprite.SCALED_SIZE + y);
+        while (b < bottomLength) {
+            gc.drawImage(Sprite.explosion_vertical.getFxImage(), x,Sprite.SCALED_SIZE*b + y);
+            b++;
         }
         gc.drawImage(exploded.get(0),x,y);
     }
     public void renderExplosion1(GraphicsContext gc) {
 
         if(leftLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_left_last1.getFxImage(),x-Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_left_last1.getFxImage(),x-Sprite.SCALED_SIZE*leftLength,y);
         }
         if(rightLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_right_last1.getFxImage(),x+Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_right_last1.getFxImage(),x+Sprite.SCALED_SIZE*rightLength,y);
         }
         if(topLength > 0) {
-            gc.drawImage(Sprite.explosion_vertical_top_last1.getFxImage(),x,-Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_top_last1.getFxImage(),x,-Sprite.SCALED_SIZE*topLength + y);
         }
         if(bottomLength > 0){
-            gc.drawImage(Sprite.explosion_vertical_down_last1.getFxImage(),x,Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_down_last1.getFxImage(),x,Sprite.SCALED_SIZE*bottomLength + y);
         }
 
-        int l = leftLength, r = rightLength, t =topLength, b = bottomLength;
-        while(l > 0){
-            gc.drawImage(Sprite.explosion_horizontal1.getFxImage(),x-Sprite.SCALED_SIZE,y);
-            l--;
+        int l = 1, r = 1, t = 1, b = 1;
+        while(l < leftLength){
+            gc.drawImage(Sprite.explosion_horizontal1.getFxImage(),x-Sprite.SCALED_SIZE*l,y);
+            l++;
         }
-        while(r > 0){
-            r--;
-            gc.drawImage(Sprite.explosion_horizontal1.getFxImage(),x+Sprite.SCALED_SIZE,y);
+        while(r < rightLength){
+            gc.drawImage(Sprite.explosion_horizontal1.getFxImage(),x+Sprite.SCALED_SIZE*r,y);
+            r++;
         }
-        while (t > 0) {
-            t--;
-            gc.drawImage(Sprite.explosion_vertical1.getFxImage(), x,-Sprite.SCALED_SIZE + y);
+        while (t < topLength) {
+            gc.drawImage(Sprite.explosion_vertical1.getFxImage(), x,-Sprite.SCALED_SIZE*t + y);
+            t++;
         }
-        while (b > 0) {
-            b--;
-            gc.drawImage(Sprite.explosion_vertical1.getFxImage(), x,Sprite.SCALED_SIZE + y);
+        while (b < bottomLength) {
+            gc.drawImage(Sprite.explosion_vertical1.getFxImage(), x,Sprite.SCALED_SIZE*b + y);
+            b++;
         }
         gc.drawImage(exploded.get(1),x,y);
     }
     public  void renderExplosion2(GraphicsContext gc) {
         if(leftLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_left_last2.getFxImage(),x-Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_left_last2.getFxImage(),x-Sprite.SCALED_SIZE*leftLength,y);
         }
         if(rightLength > 0) {
-            gc.drawImage(Sprite.explosion_horizontal_right_last2.getFxImage(),x+Sprite.SCALED_SIZE*2,y);
+            gc.drawImage(Sprite.explosion_horizontal_right_last2.getFxImage(),x+Sprite.SCALED_SIZE*rightLength,y);
         }
         if(topLength > 0) {
-            gc.drawImage(Sprite.explosion_vertical_top_last2.getFxImage(),x,-Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_top_last2.getFxImage(),x,-Sprite.SCALED_SIZE*topLength + y);
         }
         if(bottomLength > 0){
-            gc.drawImage(Sprite.explosion_vertical_down_last2.getFxImage(),x,Sprite.SCALED_SIZE*2 + y);
+            gc.drawImage(Sprite.explosion_vertical_down_last2.getFxImage(),x,Sprite.SCALED_SIZE*bottomLength + y);
         }
 
-        int l = leftLength, r = rightLength, t =topLength, b = bottomLength;
-        while(l > 0){
-            gc.drawImage(Sprite.explosion_horizontal2.getFxImage(),x-Sprite.SCALED_SIZE,y);
-            l--;
+        int l = 1, r = 1, t = 1, b = 1;
+        while(l < leftLength){
+            gc.drawImage(Sprite.explosion_horizontal2.getFxImage(),x-Sprite.SCALED_SIZE*l,y);
+            l++;
         }
-        while(r > 0){
-            r--;
-            gc.drawImage(Sprite.explosion_horizontal2.getFxImage(),x+Sprite.SCALED_SIZE,y);
+        while(r < rightLength){
+            gc.drawImage(Sprite.explosion_horizontal2.getFxImage(),x+Sprite.SCALED_SIZE*r,y);
+            r++;
         }
-        while (t > 0) {
-            t--;
-            gc.drawImage(Sprite.explosion_vertical2.getFxImage(), x,-Sprite.SCALED_SIZE + y);
+        while (t < topLength) {
+            gc.drawImage(Sprite.explosion_vertical2.getFxImage(), x,-Sprite.SCALED_SIZE*t + y);
+            t++;
         }
-        while (b > 0) {
-            b--;
-            gc.drawImage(Sprite.explosion_vertical2.getFxImage(), x,Sprite.SCALED_SIZE + y);
+        while (b < bottomLength) {
+            gc.drawImage(Sprite.explosion_vertical2.getFxImage(), x,Sprite.SCALED_SIZE*b + y);
+            b++;
         }
         gc.drawImage(exploded.get(2),x,y);
     }
@@ -219,16 +217,16 @@ public class Bomb extends Entity{
         int ux = x/Sprite.SCALED_SIZE, uy =(-Sprite.SCALED_SIZE*(topLength+1) + y)/Sprite.SCALED_SIZE;
         int dx = x/Sprite.SCALED_SIZE, dy = (Sprite.SCALED_SIZE*(bottomLength+1) + y)/Sprite.SCALED_SIZE;
         if(Map[ly][lx] instanceof Brick) {
-            Map[ly][lx] = new Grass(lx,ly,Sprite.grass.getFxImage());
+            ((Brick) Map[ly][lx]).destroyed = true;
         }
         if(Map[ry][rx] instanceof Brick) {
-            Map[ry][rx] = new Grass(rx,ry,Sprite.grass.getFxImage());
+            ((Brick) Map[ry][rx]).destroyed = true;
         }
         if(Map[uy][ux] instanceof Brick) {
-            Map[uy][ux] = new Grass(ux,uy,Sprite.grass.getFxImage());
+            ((Brick) Map[uy][ux]).destroyed = true;
         }
         if(Map[dy][dx] instanceof Brick) {
-            Map[dy][dx] = new Grass(dx,dy,Sprite.grass.getFxImage());
+            ((Brick) Map[dy][dx]).destroyed = true;
         }
     }
 }

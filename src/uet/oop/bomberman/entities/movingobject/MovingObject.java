@@ -36,4 +36,5 @@ public abstract class MovingObject extends Entity {
     public abstract void move_right();
     public abstract boolean CollisionwithWall() ;
 
+
 }
