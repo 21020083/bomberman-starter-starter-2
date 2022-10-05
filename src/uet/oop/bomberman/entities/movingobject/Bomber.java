@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb;
+import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
@@ -25,6 +26,8 @@ public class Bomber extends MovingObject {
     private final ArrayList<Image> left_movement = new ArrayList<>();
     private final ArrayList<Image> right_movement = new ArrayList<>();
     private List<Bomb> boms = new ArrayList<>();
+    private int BombAmount;
+    private int BombCount;
     private int index;
     private double AniCount;
     private boolean moving = false;
@@ -52,6 +55,8 @@ public class Bomber extends MovingObject {
         index = 0;
         AniCount = 0;
         setSpeed(2);
+        BombAmount = 3;
+        BombCount = 0;
 
         up = false;
         down = false;
@@ -80,10 +85,9 @@ public class Bomber extends MovingObject {
         if(CollisionwithWall(BombermanGame.Map)){
             index = 0;
         }
-        for(Bomb b : boms) {
-            if(b.duration == 100) {
-                b = null;
-            }
+        if(!boms.isEmpty() && boms.get(0).duration > 130 ) {
+            boms.remove(0);
+            BombCount --;
         }
 
     }
@@ -144,7 +148,10 @@ public class Bomber extends MovingObject {
                         moving = false;
                         break;
                     case ENTER:
-                        boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
+                        if(BombCount < BombAmount) {
+                            boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
+                            BombCount++;
+                        }
                     default:
                         moving = false;
                         break;
@@ -211,7 +218,9 @@ public class Bomber extends MovingObject {
 
 
         if(Map[topleftY][topleftX]  instanceof Wall || Map[toprightY][toprightX] instanceof Wall ||
-                Map[bottomrightY][bottomrightX] instanceof Wall || Map[bottomleftY][bottomleftX] instanceof Wall){
+                Map[bottomrightY][bottomrightX] instanceof Wall || Map[bottomleftY][bottomleftX] instanceof Wall ||
+                Map[topleftY][topleftX]  instanceof Brick || Map[toprightY][toprightX] instanceof Brick ||
+                Map[bottomrightY][bottomrightX] instanceof Brick || Map[bottomleftY][bottomleftX] instanceof Brick){
             moving = false;
             if(up) y+=speed;
             if(down) y-=speed;

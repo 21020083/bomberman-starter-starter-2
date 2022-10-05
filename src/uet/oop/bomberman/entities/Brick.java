@@ -23,17 +23,17 @@ public class Brick extends Entity{
     @Override
     public void update() {
         count++;
-        if(count > 600) {
-            AniCount++;
-            if (AniCount > 12){
-                if (index >= 2)
-                    index = 0;
-                else {
-                    index++;
-                }
-                AniCount = 0;
-            }
-            setImg(exploded.get(index));
-        }
+        //if(count > 600) {
+            //AniCount++;
+            //if (AniCount > 12){
+                //if (index >= 2)
+                    //index = 0;
+                //else {
+                   // index++;
+                //}
+                //AniCount = 0;
+            //}
+            //setImg(exploded.get(index));
+        //}
     }
 }

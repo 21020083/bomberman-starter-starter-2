@@ -68,8 +68,7 @@ public class BombermanGame extends Application {
                 bomberman.eventHandle(scene);
                 render();
                 update();
-                long end = System.nanoTime();
-                System.out.println(stillObjects.size());
+
             }
         };
         timer.start();
@@ -91,7 +90,7 @@ public class BombermanGame extends Application {
                 cbuf = br.readLine().toCharArray();
                 for(int j = 0; j < 31; j++) {
                     if(cbuf[j] == '*'){
-                        Map[i][j] = new Grass(j, i, Sprite.grass.getFxImage());
+                        Map[i][j] = new Brick(j, i, Sprite.brick.getFxImage());
                         brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
                     } else if (cbuf[j] == '#') {
                         Map[i][j] = new Wall(j, i, Sprite.wall.getFxImage());
@@ -120,9 +119,7 @@ public class BombermanGame extends Application {
     public void update() {
         enemy.forEach(Entity::update);
         bomberman.update();
-        brick.forEach(Brick::update);
-        if(!brick.isEmpty() && brick.get(0).count>1000)
-            brick.remove(0);
+        //brick.forEach(Brick::update);
         if(bomberman.ContactwithEnemy(enemy)) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
@@ -132,7 +129,7 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         renderMap(gc);
-        brick.forEach(g->g.render(gc));
+        //brick.forEach(g->g.render(gc));
         enemy.forEach(g -> g.render(gc));
         bomberman.render(gc);
 
