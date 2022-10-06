@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.movingobject.MovingObject;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class Bomb extends Entity{
             setImg(bomb.get(index));
             gc.drawImage(img, x, y);
         } else {
+
             AniCount++;
             if (AniCount <= 6) {
                 renderExplosion(gc);
@@ -75,7 +77,7 @@ public class Bomb extends Entity{
                 renderExplosion2(gc);
 
             }
-
+            explodeEnemy(BombermanGame.enemy);
 
         }
     }
@@ -227,6 +229,31 @@ public class Bomb extends Entity{
         }
         if(Map[dy][dx] instanceof Brick) {
             ((Brick) Map[dy][dx]).destroyed = true;
+        }
+    }
+    public void explodeEnemy(List<MovingObject> enemy) {
+        for(int i = 0; i < enemy.size(); i++) {
+            int topleftX = (enemy.get(i).getX() + 6);
+            int topleftY = (enemy.get(i).getY() + 6);
+
+            int toprightX = (enemy.get(i).getX() + Sprite.DEFAULT_SIZE + 12);
+            int toprightY = (enemy.get(i).getY() + 6);
+
+            int bottomleftX = (enemy.get(i).getX() + 6);
+            int bottomleftY = (enemy.get(i).getY() + Sprite.DEFAULT_SIZE + 12);
+
+            int bottomrightX = (enemy.get(i).getX() + Sprite.DEFAULT_SIZE + 12);
+            int bottomrightY = (enemy.get(i).getY() + Sprite.DEFAULT_SIZE + 12);
+
+            if (topleftX <= x + Sprite.SCALED_SIZE * rightLength && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
+                    topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
+                enemy.get(i).setAlive(false);
+            }
+            if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
+                    topleftY <= Sprite.SCALED_SIZE * bottomLength + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
+                enemy.get(i).setAlive(false);
+            }
+
         }
     }
 }

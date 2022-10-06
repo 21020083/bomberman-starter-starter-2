@@ -8,10 +8,13 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class MovingObject extends Entity {
     protected int speed = 3;
+    protected boolean alive;
     protected enum  Move{UP, LEFT, DOWN , RIGHT};
     protected Move move ;
     public MovingObject(int x, int y, Image img) {
+
         super(x, y, img);
+        alive = true;
     }
 
     public int getSpeed() {
@@ -28,6 +31,14 @@ public abstract class MovingObject extends Entity {
 
     public void setMove(Move move) {
         this.move = move;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public abstract void move_up();
