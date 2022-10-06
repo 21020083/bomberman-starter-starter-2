@@ -43,6 +43,8 @@ public class Kondoria extends MovingObject{
         right.add(Sprite.kondoria_right2.getFxImage());
         right.add(Sprite.kondoria_right3.getFxImage());
 
+
+
         index = 0;
         AniCount = 0;
         move = Move.RIGHT;
@@ -52,36 +54,43 @@ public class Kondoria extends MovingObject{
 
     @Override
     public void update() {
-        switch (move) {
-            case UP:
-                move_up();
-                break;
-            case DOWN:
-                move_down();
-                break;
-            case LEFT:
-                move_left();
-                break;
-            case RIGHT:
-                move_right();
-                break;
-        }
-        if(CollisionwithWall()) {
-            index = 0;
-        }
-        if(CollisionwithWall(BombermanGame.Map)) {
-            index = 0;
+        if(alive) {
+            switch (move) {
+                case UP:
+                    move_up();
+                    break;
+                case DOWN:
+                    move_down();
+                    break;
+                case LEFT:
+                    move_left();
+                    break;
+                case RIGHT:
+                    move_right();
+                    break;
+            }
+            if (CollisionwithWall()) {
+                index = 0;
+            }
+            if (CollisionwithWall(BombermanGame.Map)) {
+                index = 0;
 
-        }
+            }
 
-        endTime = System.currentTimeMillis();
-        count ++;
-        int dx = x/Sprite.SCALED_SIZE;
-        int dy = y / Sprite.SCALED_SIZE;
-        if(count >= Sprite.SCALED_SIZE * 3 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE ==y)){
-            move = Move.values()[new Random().nextInt(Move.values().length)];
-            curTime = endTime;
-            count = 0;
+            endTime = System.currentTimeMillis();
+            count++;
+            int dx = x / Sprite.SCALED_SIZE;
+            int dy = y / Sprite.SCALED_SIZE;
+            if (count >= Sprite.SCALED_SIZE * 3 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
+                move = Move.values()[new Random().nextInt(Move.values().length)];
+                curTime = endTime;
+                count = 0;
+            }
+        } else {
+            AniCount++;
+            setImg(Sprite.kondoria_dead.getFxImage());
+            if(AniCount > 30)
+                death = true;
         }
 
     }
@@ -111,21 +120,24 @@ public class Kondoria extends MovingObject{
     }
     public void render(GraphicsContext gc) {
 
-        AniCount++;
-        if (AniCount > 9) {
+        if (alive) {
+            AniCount++;
+            if (AniCount > 9) {
             if (index >= 2)
                 index = 0;
             else {
                 index++;
-            }
+                }
             AniCount = 0;
-        }
-        if(move == Move.UP || move == Move.LEFT) {
+            }
+            if (move == Move.UP || move == Move.LEFT) {
             setImg(left.get(index));
-        } else {
-            setImg(right.get(index));
+            }   else {
+                setImg(right.get(index));
+            }
         }
-        gc.drawImage(img, x, y);
+            gc.drawImage(img, x, y);
+
     }
     public  boolean CollisionwithWall() {
         if(x <= Sprite.SCALED_SIZE || y <= Sprite.SCALED_SIZE || x >= (BombermanGame.WIDTH - 2) *

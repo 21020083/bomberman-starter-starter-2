@@ -130,7 +130,7 @@ public class BombermanGame extends Application {
     }
     public void updateEnemy() {
         for(int i = 0; i < enemy.size(); i++) {
-            if(enemy.get(i).isAlive()) {
+            if(!enemy.get(i).isDeath()) {
                 enemy.get(i).update();
             } else {
                 enemy.remove(i);
