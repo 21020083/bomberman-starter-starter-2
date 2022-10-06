@@ -75,8 +75,9 @@ public class Bomb extends Entity{
                 renderExplosion1(gc);
             } else if (AniCount <= 18) {
                 renderExplosion2(gc);
-
+                explodeBomber(BombermanGame.bomberman);
             }
+
             explodeEnemy(BombermanGame.enemy);
 
         }
@@ -254,6 +255,28 @@ public class Bomb extends Entity{
                 enemy.get(i).setAlive(false);
             }
 
+        }
+    }
+    public void explodeBomber(MovingObject bomber) {
+        int topleftX = (bomber.getX() + 6);
+        int topleftY = (bomber.getY() + 6);
+
+        int toprightX = (bomber.getX() + Sprite.DEFAULT_SIZE + 12);
+        int toprightY = (bomber.getY() + 6);
+
+        int bottomleftX = (bomber.getX() + 6);
+        int bottomleftY = (bomber.getY() + Sprite.DEFAULT_SIZE + 12);
+
+        int bottomrightX = (bomber.getX() + Sprite.DEFAULT_SIZE + 12);
+        int bottomrightY = (bomber.getY() + Sprite.DEFAULT_SIZE + 12);
+
+        if (topleftX <= x + Sprite.SCALED_SIZE * rightLength && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
+                topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
+            bomber.setAlive(false);
+        }
+        if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
+                topleftY <= Sprite.SCALED_SIZE * bottomLength + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
+            bomber.setAlive(false);
         }
     }
 }

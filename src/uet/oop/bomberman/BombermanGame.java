@@ -31,7 +31,7 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static List<MovingObject> enemy = new ArrayList<>();
-    public Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
+    public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
     public Kondoria kondoria = new Kondoria(27,6,Sprite.kondoria_right1.getFxImage());
     public List<Entity> stillObjects = new ArrayList<>();
@@ -143,7 +143,7 @@ public class BombermanGame extends Application {
         updateEnemy();
         bomberman.update();
         //brick.forEach(Brick::update);
-        if(bomberman.ContactwithEnemy(enemy)) {
+        if(bomberman.ContactwithEnemy(enemy) || !bomberman.isAlive()) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
         updateMap();
