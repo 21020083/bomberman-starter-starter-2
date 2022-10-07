@@ -39,6 +39,7 @@ public class Kondoria extends MovingObject{
         left.add(Sprite.kondoria_left2.getFxImage());
         left.add(Sprite.kondoria_left3.getFxImage());
 
+
         right.add(Sprite.kondoria_right1.getFxImage());
         right.add(Sprite.kondoria_right2.getFxImage());
         right.add(Sprite.kondoria_right3.getFxImage());

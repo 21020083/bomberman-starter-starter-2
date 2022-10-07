@@ -25,6 +25,7 @@ public class Bomber extends MovingObject {
     private final ArrayList<Image> down_movement = new ArrayList<>();
     private final ArrayList<Image> left_movement = new ArrayList<>();
     private final ArrayList<Image> right_movement = new ArrayList<>();
+    private final ArrayList<Image> dead = new ArrayList<>();
     private List<Bomb> boms = new ArrayList<>();
     private int BombAmount;
     private int BombCount;
@@ -52,6 +53,10 @@ public class Bomber extends MovingObject {
         right_movement.add(Sprite.player_right_1.getFxImage());
         right_movement.add(Sprite.player_right_2.getFxImage());
 
+        dead.add(Sprite.player_dead1.getFxImage());
+        dead.add(Sprite.player_dead2.getFxImage());
+        dead.add(Sprite.player_dead3.getFxImage());
+
         index = 0;
         AniCount = 0;
         setSpeed(2);
@@ -66,24 +71,37 @@ public class Bomber extends MovingObject {
 
     @Override
     public void update() {
-        if(up) move_up();
-        if(down) move_down();
-        if(left) move_left();
-        if(right) move_right();
-        AniCount++;
-        if (AniCount > 12/speed){
-            if (index >= 2)
-                index = 0;
-            else {
-                index++;
+        if(alive) {
+            if(up) move_up();
+            if(down) move_down();
+            if(left) move_left();
+            if(right) move_right();
+            AniCount++;
+            if (AniCount > 12/speed){
+                if (index >= 2)
+                    index = 0;
+                else {
+                    index++;
+                }
+                AniCount = 0;
             }
-            AniCount = 0;
-        }
-        if(CollisionwithWall()) {
-            index = 0;
-        }
-        if(CollisionwithWall(BombermanGame.Map)){
-            index = 0;
+            if(CollisionwithWall()) {
+                index = 0;
+            }
+            if(CollisionwithWall(BombermanGame.Map)){
+                index = 0;
+            }
+            if(ContactwithEnemy(BombermanGame.enemy)) {
+                alive = false;
+            }
+        } else {
+            AniCount++;
+            if (AniCount < 9) setImg(dead.get(0));
+            else if (AniCount < 18) setImg(dead.get(1));
+            else if (AniCount < 27) setImg(dead.get(2));
+            else {
+                death = true;
+            }
         }
         if(!boms.isEmpty() && boms.get(0).duration > 130 ) {
             boms.remove(0);

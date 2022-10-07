@@ -33,6 +33,9 @@ public class BombermanGame extends Application {
     public static List<MovingObject> enemy = new ArrayList<>();
     public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
+    public Balloom balloom1 = new Balloom(12,2,Sprite.balloom_left3.getFxImage()) ;
+    public Balloom balloom2 = new Balloom(10,2,Sprite.balloom_left3.getFxImage()) ;
+    public Balloom balloom3 = new Balloom(13,6,Sprite.balloom_left3.getFxImage()) ;
     public Kondoria kondoria = new Kondoria(27,6,Sprite.kondoria_right1.getFxImage());
     public List<Entity> stillObjects = new ArrayList<>();
     private List<Brick> brick  =new ArrayList<>();
@@ -78,6 +81,10 @@ public class BombermanGame extends Application {
 
         enemy.add(balloom);
         enemy.add(kondoria);
+        enemy.add(balloom1);
+        enemy.add(balloom2);
+        enemy.add(balloom3);
+
 
     }
     public void loadMap() {
@@ -143,7 +150,7 @@ public class BombermanGame extends Application {
         updateEnemy();
         bomberman.update();
         //brick.forEach(Brick::update);
-        if(bomberman.ContactwithEnemy(enemy) || !bomberman.isAlive()) {
+        if(bomberman.isDeath()) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
         updateMap();
