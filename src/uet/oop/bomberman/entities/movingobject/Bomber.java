@@ -221,7 +221,7 @@ public class Bomber extends MovingObject {
         }
         return false;
     }
-    public  boolean CollisionwithWall(Entity[][] Map) {
+    public  boolean CollisionwithWall(int[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
@@ -235,10 +235,8 @@ public class Bomber extends MovingObject {
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
-        if(Map[topleftY][topleftX]  instanceof Wall || Map[toprightY][toprightX] instanceof Wall ||
-                Map[bottomrightY][bottomrightX] instanceof Wall || Map[bottomleftY][bottomleftX] instanceof Wall ||
-                Map[topleftY][topleftX]  instanceof Brick || Map[toprightY][toprightX] instanceof Brick ||
-                Map[bottomrightY][bottomrightX] instanceof Brick || Map[bottomleftY][bottomleftX] instanceof Brick){
+        if(Map[topleftY][topleftX] != 1 || Map[bottomrightY][bottomrightX] != 1 || Map[toprightY][toprightX] != 1 ||
+                Map[bottomleftY][bottomleftX] != 1){
             moving = false;
             if(up) y+=speed;
             if(down) y-=speed;

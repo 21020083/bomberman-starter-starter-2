@@ -89,26 +89,22 @@ public class Bomb extends Entity{
         downx = x; downy = Sprite.SCALED_SIZE + y;
 
         while(leftx >=0 && leftx >= x-Sprite.SCALED_SIZE*length &&
-                !(BombermanGame.Map[lefty/Sprite.SCALED_SIZE][leftx/Sprite.SCALED_SIZE] instanceof Wall)
-                && !(BombermanGame.Map[lefty/Sprite.SCALED_SIZE][leftx/Sprite.SCALED_SIZE] instanceof Brick)) {
+                BombermanGame.Map[lefty/Sprite.SCALED_SIZE][leftx/Sprite.SCALED_SIZE] == 1) {
             leftLength++;
             leftx -=Sprite.SCALED_SIZE;
         }
         while(rightx <=(BombermanGame.WIDTH-1)*Sprite.SCALED_SIZE && rightx <= x+Sprite.SCALED_SIZE*length &&
-                !(BombermanGame.Map[righty/Sprite.SCALED_SIZE][rightx/Sprite.SCALED_SIZE] instanceof Wall)
-                && !(BombermanGame.Map[righty/Sprite.SCALED_SIZE][rightx/Sprite.SCALED_SIZE] instanceof Brick)) {
+                BombermanGame.Map[righty/Sprite.SCALED_SIZE][rightx/Sprite.SCALED_SIZE] == 1) {
             rightLength++;
             rightx +=Sprite.SCALED_SIZE;
         }
         while(upy >=0 && upy >= y-Sprite.SCALED_SIZE*length &&
-                !(BombermanGame.Map[upy/Sprite.SCALED_SIZE][upx/Sprite.SCALED_SIZE] instanceof Wall)
-                && !(BombermanGame.Map[upy/Sprite.SCALED_SIZE][upx/Sprite.SCALED_SIZE] instanceof Brick)) {
+                BombermanGame.Map[upy/Sprite.SCALED_SIZE][upx/Sprite.SCALED_SIZE] == 1) {
             topLength++;
             upy -= Sprite.SCALED_SIZE;
         }
         while(downy <=(BombermanGame.HEIGHT-1)*Sprite.SCALED_SIZE && downy <= y+Sprite.SCALED_SIZE*length &&
-                !(BombermanGame.Map[downy/Sprite.SCALED_SIZE][downx/Sprite.SCALED_SIZE] instanceof Wall)
-                && !(BombermanGame.Map[downy/Sprite.SCALED_SIZE][downx/Sprite.SCALED_SIZE] instanceof Brick)) {
+                BombermanGame.Map[downy/Sprite.SCALED_SIZE][downx/Sprite.SCALED_SIZE] == 1) {
             bottomLength++;
             downy += Sprite.SCALED_SIZE;
         }
@@ -214,22 +210,22 @@ public class Bomb extends Entity{
         }
         gc.drawImage(exploded.get(2),x,y);
     }
-    public void destroyBrick(Entity[][] Map) {
+    public void destroyBrick(int[][] Map) {
         int lx = (x-Sprite.SCALED_SIZE*(leftLength+1))/Sprite.SCALED_SIZE, ly = y/Sprite.SCALED_SIZE;
         int rx = (x+Sprite.SCALED_SIZE*(rightLength+1))/Sprite.SCALED_SIZE, ry = y/Sprite.SCALED_SIZE;
         int ux = x/Sprite.SCALED_SIZE, uy =(-Sprite.SCALED_SIZE*(topLength+1) + y)/Sprite.SCALED_SIZE;
         int dx = x/Sprite.SCALED_SIZE, dy = (Sprite.SCALED_SIZE*(bottomLength+1) + y)/Sprite.SCALED_SIZE;
-        if(Map[ly][lx] instanceof Brick) {
-            ((Brick) Map[ly][lx]).destroyed = true;
+        if(Map[ly][lx] == 2) {
+            Map[ly][lx] = -1;
         }
-        if(Map[ry][rx] instanceof Brick) {
-            ((Brick) Map[ry][rx]).destroyed = true;
+        if(Map[ry][rx] == 2) {
+             Map[ry][rx] = -1;
         }
-        if(Map[uy][ux] instanceof Brick) {
-            ((Brick) Map[uy][ux]).destroyed = true;
+        if(Map[uy][ux] == 2) {
+            Map[uy][ux] = -1;
         }
-        if(Map[dy][dx] instanceof Brick) {
-            ((Brick) Map[dy][dx]).destroyed = true;
+        if(Map[dy][dx] == 2 ) {
+            Map[dy][dx] = -1;
         }
     }
     public void explodeEnemy(List<MovingObject> enemy) {
@@ -270,12 +266,12 @@ public class Bomb extends Entity{
         int bottomrightX = (bomber.getX() + Sprite.DEFAULT_SIZE + 12);
         int bottomrightY = (bomber.getY() + Sprite.DEFAULT_SIZE + 12);
 
-        if (topleftX <= x + Sprite.SCALED_SIZE * rightLength && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
+        if (topleftX <= x + Sprite.SCALED_SIZE * (rightLength+1) && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
                 topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
             bomber.setAlive(false);
         }
         if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
-                topleftY <= Sprite.SCALED_SIZE * bottomLength + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
+                topleftY <= Sprite.SCALED_SIZE * (bottomLength+1) + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
             bomber.setAlive(false);
         }
     }

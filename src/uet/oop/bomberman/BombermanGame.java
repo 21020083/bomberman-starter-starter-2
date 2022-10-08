@@ -24,9 +24,9 @@ import java.util.List;
 public class BombermanGame extends Application {
     
     public static final int WIDTH = 31;
-    public static Entity[][] Map = new Entity[13][31];
+    public static int[][] Map = new int [13][31];
     public static final int HEIGHT = 13;
-    public String path = "/levels/Level1.txt";
+    public String path = "/levels/level.txt";
     
     private GraphicsContext gc;
     private Canvas canvas;
@@ -95,16 +95,19 @@ public class BombermanGame extends Application {
             char[] cbuf = new char[31];
             int i = 0;
             while(i < 13) {
-                cbuf = br.readLine().toCharArray();
+                String line = br.readLine();
+                String numbers[] = line.split(" ");
                 for(int j = 0; j < 31; j++) {
-                    if(cbuf[j] == '*'){
-                        Map[i][j] = new Brick(j, i, Sprite.brick.getFxImage());
+                    int num = Integer.parseInt(numbers[j]);
+                    if(num == 0){
+                        stillObjects.add(new Wall(j, i, Sprite.wall.getFxImage()));
+                    } else if (num == 2) {
+                        stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                         brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
-                    } else if (cbuf[j] == '#') {
-                        Map[i][j] = new Wall(j, i, Sprite.wall.getFxImage());
                     } else {
-                        Map[i][j] = new Grass(j, i, Sprite.grass.getFxImage());
+                        stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     }
+                    Map[i][j] = num;
                 }
                 i++;
             }
@@ -116,25 +119,21 @@ public class BombermanGame extends Application {
         }
     }
     public void updateMap(){
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                if(Map[i][j] instanceof Brick && ((Brick) Map[i][j]).destroyed){
-                    Map[i][j].update();
-                    if(((Brick) Map[i][j]).duration >= 15){
-                        Map[i][j] = new Grass(j,i,Sprite.grass.getFxImage());
-                    }
-                }
+        for(int i = 0; i < brick.size(); i++) {
+            int dx = brick.get(i).getX()/Sprite.SCALED_SIZE;
+            int dy = brick.get(i).getY()/Sprite.SCALED_SIZE;
+            if (BombermanGame.Map[dy][dx] == -1) {
+                brick.get(i).destroyed = true;
+            }
+            brick.get(i).update();
+            if(brick.get(i).remove) {
+                brick.remove(i);
+                i--;
             }
         }
     }
 
-    public void renderMap(GraphicsContext gc) {
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                Map[i][j].render(gc);
-            }
-        }
-    }
+
     public void updateEnemy() {
         for(int i = 0; i < enemy.size(); i++) {
             if(!enemy.get(i).isDeath()) {
@@ -149,7 +148,6 @@ public class BombermanGame extends Application {
     public void update() {
         updateEnemy();
         bomberman.update();
-        //brick.forEach(Brick::update);
         if(bomberman.isDeath()) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
@@ -160,8 +158,8 @@ public class BombermanGame extends Application {
     public void render() {
         gc.setFill(Color.GREEN);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        renderMap(gc);
-        //brick.forEach(g->g.render(gc));
+        stillObjects.forEach(g->g.render(gc));
+        brick.forEach(g->g.render(gc));
         enemy.forEach(g -> g.render(gc));
         bomberman.render(gc);
 
