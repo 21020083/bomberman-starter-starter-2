@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.movingobject.Enemy;
 import uet.oop.bomberman.entities.movingobject.MovingObject;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -228,7 +229,7 @@ public class Bomb extends Entity{
             Map[dy][dx] = -1;
         }
     }
-    public void explodeEnemy(List<MovingObject> enemy) {
+    public void explodeEnemy(List<Enemy> enemy) {
         for(int i = 0; i < enemy.size(); i++) {
             int topleftX = (enemy.get(i).getX() + 6);
             int topleftY = (enemy.get(i).getY() + 6);

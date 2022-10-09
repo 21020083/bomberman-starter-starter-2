@@ -9,11 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Minvo extends MovingObject{
-    private final ArrayList<Image> left  = new ArrayList<>();
-    private final ArrayList<Image> right = new ArrayList<>();
-    private int index;
-    private int AniCount;
+public class Minvo extends Enemy{
     private int count = 0;
     private  pathfinder pfinder = new pathfinder(BombermanGame.Map);
 
@@ -77,82 +73,13 @@ public class Minvo extends MovingObject{
             }
         } else {
             AniCount++;
-            setImg(Sprite.kondoria_dead.getFxImage());
+            setImg(Sprite.minvo_dead.getFxImage());
             if(AniCount > 30)
                 death = true;
         }
 
     }
 
-    @Override
-    public void move_up() {
-        y--;
-        move = Move.UP;
-        setImg(left.get(index));
-
-    }
-    public void move_down() {
-        y++;
-        move = Move.DOWN;
-        setImg(right.get(index));
-    }
-    public void move_left() {
-        x--;
-        move = Move.LEFT;
-        setImg(left.get(index));
-    }
-    public void move_right() {
-        x++;
-        move = Move.RIGHT;
-        setImg(right.get(index));
-    }
-    public void render(GraphicsContext gc) {
-
-        if (alive) {
-            AniCount++;
-            if (AniCount > 9) {
-                if (index >= 2)
-                    index = 0;
-                else {
-                    index++;
-                }
-                AniCount = 0;
-            }
-            if (move == Move.UP || move == Move.LEFT) {
-                setImg(left.get(index));
-            }   else {
-                setImg(right.get(index));
-            }
-        }
-        gc.drawImage(img, x, y);
-
-    }
-
-    public  boolean CollisionwithWall() {
-        if(x <= Sprite.SCALED_SIZE || y <= Sprite.SCALED_SIZE || x >= (BombermanGame.WIDTH - 2) *
-                Sprite.SCALED_SIZE || y >= (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
-            switch (move) {
-                case UP:
-                    y ++;
-                    move = Move.LEFT;
-                    break;
-                case DOWN:
-                    y --;
-                    move = Move.RIGHT;
-                    break;
-                case RIGHT:
-                    x--;
-                    move = Move.UP;
-                    break;
-                case LEFT:
-                    x++;
-                    move = Move.DOWN;
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
     public  boolean CollisionwithWall(int[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;

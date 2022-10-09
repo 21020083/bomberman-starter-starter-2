@@ -246,7 +246,7 @@ public class Bomber extends MovingObject {
         }
         return false;
     }
-    public boolean ContactwithEnemy(List<MovingObject>Enemy) {
+    public boolean ContactwithEnemy(List<Enemy>Enemy) {
 
         double centerX = x + Sprite.DEFAULT_SIZE;
         double centerY = y + Sprite.DEFAULT_SIZE;

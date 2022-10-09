@@ -28,7 +28,7 @@ public class BombermanGame extends Application {
     
     private GraphicsContext gc;
     private Canvas canvas;
-    public static List<MovingObject> enemy = new ArrayList<>();
+    public static List<Enemy> enemy = new ArrayList<>();
     public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
 
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;

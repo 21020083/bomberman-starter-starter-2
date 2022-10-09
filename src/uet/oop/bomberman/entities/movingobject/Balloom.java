@@ -8,14 +8,11 @@ import javafx.scene.canvas.GraphicsContext;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Balloom extends MovingObject {
-    private final ArrayList<Image> left  = new ArrayList<>();
-    private final ArrayList<Image> right = new ArrayList<>();
-    private final ArrayList<Image> dead = new ArrayList<>();
-    private int index;
-    private int AniCount;
+public class Balloom extends Enemy {
+    private List<Image> dead = new ArrayList<>();
     private long curTime;
     private long endTime;
 
@@ -78,74 +75,5 @@ public class Balloom extends MovingObject {
         }
 
 
-    }
-
-
-    @Override
-    public void move_up() {
-        y--;
-        move = Move.UP;
-        setImg(left.get(index));
-
-    }
-    public void move_down() {
-        y++;
-        move = Move.DOWN;
-        setImg(right.get(index));
-    }
-    public void move_left() {
-        x--;
-        move = Move.LEFT;
-        setImg(left.get(index));
-    }
-    public void move_right() {
-        x++;
-        move = Move.RIGHT;
-        setImg(right.get(index));
-    }
-    public void render(GraphicsContext gc) {
-
-        if(alive){
-            AniCount++;
-            if (AniCount > 9) {
-                if (index >= 2)
-                    index = 0;
-                else {
-                    index++;
-                }
-                AniCount = 0;
-            }
-            if(move == Move.UP || move == Move.LEFT) {
-                setImg(left.get(index));
-            } else {
-                setImg(right.get(index));
-            }
-        }
-        gc.drawImage(img, x, y);
-    }
-    public  boolean CollisionwithWall() {
-        if(x <= Sprite.SCALED_SIZE || y <= Sprite.SCALED_SIZE || x >= (BombermanGame.WIDTH - 2) *
-                Sprite.SCALED_SIZE || y >= (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
-            switch (move) {
-                case UP:
-                    y ++;
-                    move = Move.DOWN;
-                    break;
-                case DOWN:
-                    y --;
-                    move = Move.UP;
-                    break;
-                case RIGHT:
-                    x--;
-                    move = Move.LEFT;
-                    break;
-                case LEFT:
-                    x++;
-                    move = Move.RIGHT;
-                    break;
-            }
-            return true;
-        }
-        return false;
     }
 }
