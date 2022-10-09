@@ -9,10 +9,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
-import uet.oop.bomberman.entities.movingobject.Balloom;
-import uet.oop.bomberman.entities.movingobject.Bomber;
-import uet.oop.bomberman.entities.movingobject.Kondoria;
-import uet.oop.bomberman.entities.movingobject.MovingObject;
+import uet.oop.bomberman.entities.movingobject.*;
+import uet.oop.bomberman.entities.movingobject.pathfinder.pathfinder;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.BufferedReader;
@@ -32,10 +30,12 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<MovingObject> enemy = new ArrayList<>();
     public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
+
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom1 = new Balloom(12,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom2 = new Balloom(10,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom3 = new Balloom(13,6,Sprite.balloom_left3.getFxImage()) ;
+
     public Kondoria kondoria = new Kondoria(27,6,Sprite.kondoria_right1.getFxImage());
     public List<Entity> stillObjects = new ArrayList<>();
     private List<Brick> brick  =new ArrayList<>();
@@ -84,6 +84,7 @@ public class BombermanGame extends Application {
         enemy.add(balloom1);
         enemy.add(balloom2);
         enemy.add(balloom3);
+        enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
 
 
     }
