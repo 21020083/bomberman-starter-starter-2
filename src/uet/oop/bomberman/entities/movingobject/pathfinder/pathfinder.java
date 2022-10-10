@@ -66,7 +66,7 @@ public class pathfinder {
         node.h = dx + dy;
         node.f = node.g +node. h;
     }
-    public void search(){
+    public boolean search(){
         while(!finished && count < 300){
             int row  = Current.row;
             int col = Current.col;
@@ -104,6 +104,7 @@ public class pathfinder {
             }
             count++;
         }
+        return finished;
     }
     public void Opennode(Node node) {
         if(!node.open && !node.checked && !node.solid) {

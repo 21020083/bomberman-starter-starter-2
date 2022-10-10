@@ -26,7 +26,7 @@ public class Bomber extends MovingObject {
     private final ArrayList<Image> left_movement = new ArrayList<>();
     private final ArrayList<Image> right_movement = new ArrayList<>();
     private final ArrayList<Image> dead = new ArrayList<>();
-    private List<Bomb> boms = new ArrayList<>();
+    public List<Bomb> boms = new ArrayList<>();
     private int BombAmount;
     private int BombCount;
     private int index;
@@ -67,6 +67,14 @@ public class Bomber extends MovingObject {
         down = false;
         left = false;
         right = false;
+    }
+
+    public int getBombAmount() {
+        return BombAmount;
+    }
+
+    public void setBombAmount(int bombAmount) {
+        BombAmount = bombAmount;
     }
 
     @Override

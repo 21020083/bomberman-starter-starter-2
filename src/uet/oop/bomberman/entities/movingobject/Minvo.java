@@ -52,7 +52,9 @@ public class Minvo extends Enemy{
                     int topleftX = (BombermanGame.bomberman.getX()+6)/Sprite.SCALED_SIZE;
                     int topleftY = (BombermanGame.bomberman.getY()+6)/Sprite.SCALED_SIZE;
                     pfinder.setup(dx,dy,topleftY,topleftX);
-                    pfinder.search();
+                    if(!pfinder.search()){
+                       alive = false;
+                    }
                     count = 0;
                 }
 
@@ -62,7 +64,7 @@ public class Minvo extends Enemy{
                 move_right();
             } else if (realY > y) {
                 move_down();
-            } else if(realY < y) {
+            } else {
                 move_up();
             }
             if (CollisionwithWall()) {

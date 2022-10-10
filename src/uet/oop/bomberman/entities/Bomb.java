@@ -46,6 +46,15 @@ public class Bomb extends Entity{
 
 
     }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     @Override
     public void update() {
 
