@@ -20,23 +20,23 @@ public class Enemy extends MovingObject{
 
     @Override
     public void move_up() {
-        y--;
+        y-=speed;
         move = Move.UP;
         setImg(left.get(index));
 
     }
     public void move_down() {
-        y++;
+        y+=speed;
         move = Move.DOWN;
         setImg(right.get(index));
     }
     public void move_left() {
-        x--;
+        x-=speed;
         move = Move.LEFT;
         setImg(left.get(index));
     }
     public void move_right() {
-        x++;
+        x+=speed;
         move = Move.RIGHT;
         setImg(right.get(index));
     }
@@ -46,19 +46,19 @@ public class Enemy extends MovingObject{
                 Sprite.SCALED_SIZE || y >= (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
             switch (move) {
                 case UP:
-                    y ++;
+                    y +=speed;
                     move = Move.DOWN;
                     break;
                 case DOWN:
-                    y --;
+                    y -=speed;
                     move = Move.UP;
                     break;
                 case RIGHT:
-                    x--;
+                    x-=speed;
                     move = Move.LEFT;
                     break;
                 case LEFT:
-                    x++;
+                    x+=speed;
                     move = Move.RIGHT;
                     break;
             }
@@ -84,19 +84,19 @@ public class Enemy extends MovingObject{
                 Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
             switch (move) {
                 case UP:
-                    y++;
+                    y+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
-                    y--;
+                    y-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
-                    x--;
+                    x-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
-                    x++;
+                    x+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }

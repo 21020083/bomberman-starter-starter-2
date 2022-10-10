@@ -111,19 +111,19 @@ public class Kondoria extends Enemy{
             count = 0;
             switch (move) {
                 case UP:
-                    y++;
+                    y+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
-                    y--;
+                    y-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
-                    x--;
+                    x-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
-                    x++;
+                    x+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }

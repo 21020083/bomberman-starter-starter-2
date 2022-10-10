@@ -13,18 +13,6 @@ public class Minvo extends Enemy{
     private int count = 0;
     private  pathfinder pfinder = new pathfinder(BombermanGame.Map);
 
-    int leftX = x - Sprite.SCALED_SIZE;
-    int leftY = y;
-
-    int rightX = x + Sprite.SCALED_SIZE;
-    int rightY = y;
-
-    int upX = x;
-    int upY = y - Sprite.SCALED_SIZE;
-
-    int downX = x;
-    int downY = y + Sprite.SCALED_SIZE;
-
     public Minvo(int x, int y, Image img) {
         super(x, y, img);
 
@@ -55,6 +43,9 @@ public class Minvo extends Enemy{
             if(realX == x && realY == y ) {
                 if(count < pfinder.step - 1) {
                     count++;
+                    if(count > pfinder.step - 5) {
+                        setSpeed(2);
+                    }
                 } else {
                     int dx = y/Sprite.SCALED_SIZE;
                     int dy = x/Sprite.SCALED_SIZE;
@@ -95,19 +86,19 @@ public class Minvo extends Enemy{
                 Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
             switch (move) {
                 case UP:
-                    y ++;
+                    y +=speed;
                     move = Move.DOWN;
                     break;
                 case DOWN:
-                    y --;
+                    y -=speed;
                     move = Move.UP;
                     break;
                 case RIGHT:
-                    x--;
+                    x-=speed;
                     move = Move.LEFT;
                     break;
                 case LEFT:
-                    x++;
+                    x+=speed;
                     move = Move.RIGHT;
                     break;
             }
@@ -134,19 +125,19 @@ public class Minvo extends Enemy{
             count = 0;
             switch (move) {
                 case UP:
-                    y++;
+                    y+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
-                    y--;
+                    y-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
-                    x--;
+                    x-=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
-                    x++;
+                    x+=speed;
                     move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
