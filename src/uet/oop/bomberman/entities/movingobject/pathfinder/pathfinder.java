@@ -12,6 +12,7 @@ public class pathfinder {
     public List<Node> closedlist = new ArrayList<>() ;
     Node Start,End,Current;
     public int step = 0;
+    public int count = 0;
     boolean finished = false;
 
     public pathfinder(int[][] Map) {
@@ -37,6 +38,8 @@ public class pathfinder {
         finished = false;
         openlist.clear();
         closedlist.clear();
+        step = 0;
+        count = 0;
     }
     public void setup(int startRow, int startCol, int endRow, int endCol) {
         reset();
@@ -64,7 +67,7 @@ public class pathfinder {
         node.f = node.g +node. h;
     }
     public void search(){
-        while(!finished && step < 300){
+        while(!finished && count < 300){
             int row  = Current.row;
             int col = Current.col;
             Current.checked = true;
@@ -99,7 +102,7 @@ public class pathfinder {
                 finished = true;
                 tracking();
             }
-            step++;
+            count++;
         }
     }
     public void Opennode(Node node) {
@@ -113,6 +116,7 @@ public class pathfinder {
     public void tracking() {
         Node cur = End;
         while(cur != Start) {
+            step++;
             closedlist.add(0,cur);
             cur = cur.parent;
         }

@@ -50,12 +50,21 @@ public class Minvo extends Enemy{
     @Override
     public void update() {
         if(alive) {
-
             int realX = pfinder.closedlist.get(count).col*Sprite.SCALED_SIZE;
             int realY = pfinder.closedlist.get(count).row*Sprite.SCALED_SIZE;
             if(realX == x && realY == y ) {
-                if(count < pfinder.step -1)
+                if(count < pfinder.step - 1) {
                     count++;
+                } else {
+                    int dx = y/Sprite.SCALED_SIZE;
+                    int dy = x/Sprite.SCALED_SIZE;
+                    int topleftX = (BombermanGame.bomberman.getX()+6)/Sprite.SCALED_SIZE;
+                    int topleftY = (BombermanGame.bomberman.getY()+6)/Sprite.SCALED_SIZE;
+                    pfinder.setup(dx,dy,topleftY,topleftX);
+                    pfinder.search();
+                    count = 0;
+                }
+
             }else if(realX < x) {
                 move_left();
             } else if(realX > x) {
@@ -80,6 +89,32 @@ public class Minvo extends Enemy{
 
     }
 
+
+    public  boolean CollisionwithWall() {
+        if(x < Sprite.SCALED_SIZE || y < Sprite.SCALED_SIZE || x > (BombermanGame.WIDTH - 2) *
+                Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
+            switch (move) {
+                case UP:
+                    y ++;
+                    move = Move.DOWN;
+                    break;
+                case DOWN:
+                    y --;
+                    move = Move.UP;
+                    break;
+                case RIGHT:
+                    x--;
+                    move = Move.LEFT;
+                    break;
+                case LEFT:
+                    x++;
+                    move = Move.RIGHT;
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
     public  boolean CollisionwithWall(int[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
