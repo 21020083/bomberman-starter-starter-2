@@ -73,6 +73,9 @@ public class Minvo extends Enemy{
             if (CollisionwithWall(BombermanGame.Map)) {
                 index = 0;
             }
+            if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+                index = 0;
+            }
         } else {
             AniCount++;
             setImg(Sprite.minvo_dead.getFxImage());

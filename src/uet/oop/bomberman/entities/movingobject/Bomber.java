@@ -229,6 +229,12 @@ public class Bomber extends MovingObject {
         }
         return false;
     }
+
+    @Override
+    public boolean CollisionwithBomb(List<Bomb> b) {
+        return false;
+    }
+
     public  boolean CollisionwithWall(int[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;

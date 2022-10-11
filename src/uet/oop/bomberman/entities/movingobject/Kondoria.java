@@ -71,9 +71,10 @@ public class Kondoria extends Enemy{
             }
             if (CollisionwithWall(BombermanGame.Map)) {
                 index = 0;
-
             }
-
+            if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+                index = 0;
+            }
             endTime = System.currentTimeMillis();
             count++;
             int dx = x / Sprite.SCALED_SIZE;

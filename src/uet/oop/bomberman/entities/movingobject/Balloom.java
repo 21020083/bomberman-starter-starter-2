@@ -34,7 +34,7 @@ public class Balloom extends Enemy {
         index = 0;
         AniCount = 0;
         move = Move.RIGHT;
-        setSpeed(2);
+        setSpeed(1);
         curTime = System.currentTimeMillis();
     }
 
@@ -56,6 +56,9 @@ public class Balloom extends Enemy {
                     break;
             }
             if(CollisionwithWall()) {
+                index = 0;
+            }
+            if(CollisionwithBomb(BombermanGame.bomberman.boms)){
                 index = 0;
             }
             endTime = System.currentTimeMillis();

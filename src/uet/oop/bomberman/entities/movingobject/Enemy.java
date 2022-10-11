@@ -3,9 +3,11 @@ package uet.oop.bomberman.entities.movingobject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Enemy extends MovingObject{
@@ -66,6 +68,37 @@ public class Enemy extends MovingObject{
         }
         return false;
     }
+
+    @Override
+    public boolean CollisionwithBomb(List<Bomb> bombs) {
+        for(Bomb b : bombs)
+        {
+            if(b.getX() + Sprite.SCALED_SIZE > x && x + 28 > b.getX() &&
+            y+ 28 > b.getY() && b.getY() + Sprite.SCALED_SIZE > y){
+                switch (move) {
+                    case UP:
+                        y +=speed;
+                        move = Move.DOWN;
+                        break;
+                    case DOWN:
+                        y -=speed;
+                        move = Move.UP;
+                        break;
+                    case RIGHT:
+                        x-=speed;
+                        move = Move.LEFT;
+                        break;
+                    case LEFT:
+                        x+=speed;
+                        move = Move.RIGHT;
+                        break;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     public  boolean CollisionwithWall(int[][] Map) {
         int topleftX = (x+6)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
