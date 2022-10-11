@@ -20,6 +20,7 @@ public class SpeedItem extends Item{
             duration++;
             if (duration > 150){
                 BombermanGame.bomberman.setSpeed(2);
+                setRemoved(true);
             }
         }
     }

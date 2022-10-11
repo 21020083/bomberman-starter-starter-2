@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.item.ItemList;
 import uet.oop.bomberman.entities.movingobject.*;
 import uet.oop.bomberman.entities.movingobject.pathfinder.pathfinder;
 import uet.oop.bomberman.graphics.Sprite;
@@ -30,6 +31,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<Enemy> enemy = new ArrayList<>();
     public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
+    public static ItemList items = new ItemList();
 
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom1 = new Balloom(12,2,Sprite.balloom_left3.getFxImage()) ;
@@ -105,6 +107,10 @@ public class BombermanGame extends Application {
                     } else if (num == 2) {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                         brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                    } else if ( num == 3) {
+                        stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                        brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
+                        items.add(j,i);
                     } else {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     }
@@ -149,6 +155,7 @@ public class BombermanGame extends Application {
     public void update() {
         updateEnemy();
         bomberman.update();
+        items.update();
         if(bomberman.isDeath()) {
             bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         }
@@ -160,6 +167,7 @@ public class BombermanGame extends Application {
         gc.setFill(Color.GREEN);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g->g.render(gc));
+        items.render(gc);
         brick.forEach(g->g.render(gc));
         enemy.forEach(g -> g.render(gc));
         bomberman.render(gc);
