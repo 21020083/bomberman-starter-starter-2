@@ -39,9 +39,6 @@ public class Brick extends Entity{
             }
             setImg(exploded.get(index));
             if(duration >= 18){
-                int dx = x/Sprite.SCALED_SIZE;
-                int dy = y/Sprite.SCALED_SIZE;
-                BombermanGame.Map[dy][dx] = 1;
                 remove = true;
             }
         }

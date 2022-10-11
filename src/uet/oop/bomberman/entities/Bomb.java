@@ -228,13 +228,13 @@ public class Bomb extends Entity{
         if(Map[ly][lx] == 2 || Map[ly][lx] == 3) {
             Map[ly][lx] = -1;
         }
-        if(Map[ry][rx] == 2 || Map[ly][lx] == 3) {
+        if(Map[ry][rx] == 2 || Map[ry][rx] == 3) {
              Map[ry][rx] = -1;
         }
-        if(Map[uy][ux] == 2 || Map[ly][lx] == 3) {
+        if(Map[uy][ux] == 2 || Map[uy][ux] == 3) {
             Map[uy][ux] = -1;
         }
-        if(Map[dy][dx] == 2 || Map[ly][lx] == 3) {
+        if(Map[dy][dx] == 2 || Map[dy][dx] == 3) {
             Map[dy][dx] = -1;
         }
     }

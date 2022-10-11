@@ -35,7 +35,8 @@ public abstract class Item extends Entity {
     public boolean contactWithPlayer(Bomber b) {
         int dx = (b.getX()+6);
         int dy = (b.getY()+6);
-        if(dx + 22 > x && dx < x + Sprite.SCALED_SIZE && dy + 22 > y && dy < y+Sprite.SCALED_SIZE) {
+        if(dx + 22 > x && dx < x + Sprite.SCALED_SIZE && dy + 22 > y && dy < y+Sprite.SCALED_SIZE
+                && BombermanGame.Map[dy/Sprite.SCALED_SIZE][dx/Sprite.SCALED_SIZE] == 1) {
             return true;
         }
         return false;

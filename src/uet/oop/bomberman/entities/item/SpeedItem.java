@@ -18,7 +18,7 @@ public class SpeedItem extends Item{
         }
         if(isPicked()) {
             duration++;
-            if (duration > 150){
+            if (duration > 1500){
                 BombermanGame.bomberman.setSpeed(2);
                 setRemoved(true);
             }

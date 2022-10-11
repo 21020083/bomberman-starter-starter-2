@@ -136,6 +136,7 @@ public class BombermanGame extends Application {
             if(brick.get(i).remove) {
                 brick.remove(i);
                 i--;
+                BombermanGame.Map[dy][dx] = 1;
             }
         }
     }
@@ -169,6 +170,7 @@ public class BombermanGame extends Application {
         stillObjects.forEach(g->g.render(gc));
         items.render(gc);
         brick.forEach(g->g.render(gc));
+
         enemy.forEach(g -> g.render(gc));
         bomberman.render(gc);
 

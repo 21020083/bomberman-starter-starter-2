@@ -20,7 +20,7 @@ public class FlameItem extends Item{
         }
         if(isPicked() && !isRemoved()) {
             duration++;
-            if(duration > 150){
+            if(duration > 1500){
                 for(Bomb b : BombermanGame.bomberman.boms) {
                     b.setLength(b.getLength()-1);
                 }
