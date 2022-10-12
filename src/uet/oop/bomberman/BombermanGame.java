@@ -87,6 +87,7 @@ public class BombermanGame extends Application {
         enemy.add(balloom2);
         enemy.add(balloom3);
         enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
+        enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
 
 
     }
