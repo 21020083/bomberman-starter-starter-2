@@ -10,7 +10,9 @@ import java.util.List;
 
 public class Oneal extends  Enemy{
     private int count = 0;
+    private boolean bombDetected = false;
     private pathfinder pfinder = new pathfinder(BombermanGame.Map);
+    private int moveaway = 0;
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
 
@@ -32,27 +34,17 @@ public class Oneal extends  Enemy{
     }
     public void update() {
         if(alive) {
-            if(!detectBomb(BombermanGame.bomberman.boms)) {
-               followBomber(BombermanGame.bomberman);
+            if(!bombDetected) {
+                detectBomb(BombermanGame.bomberman.boms);
+                followBomber(BombermanGame.bomberman);
             } else {
-                switch (move) {
-                    case UP:
-                        y +=speed;
-                        move = Move.DOWN;
-                        break;
-                    case DOWN:
-                        y -=speed;
-                        move = Move.UP;
-                        break;
-                    case RIGHT:
-                        x-=speed;
-                        move = Move.LEFT;
-                        break;
-                    case LEFT:
-                        x+=speed;
-                        move = Move.RIGHT;
-                        break;
+                moveaway++;
+                if(moveaway > 120) {
+                    bombDetected = false;
+                    moveaway = 0;
                 }
+                Moveaway();
+
             }
         } else {
             AniCount++;
@@ -102,13 +94,38 @@ public class Oneal extends  Enemy{
             index = 0;
         }
     }
-    public boolean detectBomb(List<Bomb> bombs){
+    public void detectBomb(List<Bomb> bombs){
         for(Bomb b : bombs)
         {
             int dx = Math.abs((x-b.getX())/Sprite.SCALED_SIZE);
             int dy = Math.abs((y-b.getY())/Sprite.SCALED_SIZE);
-            if(dy + dx < 4) return true;
+            if(dy + dx < 4) {
+                bombDetected = true;
+                Moveaway();
+                break;
+            }
         }
-        return false;
+    }
+    public void Moveaway() {
+        switch (move) {
+            case UP:
+                y+=speed;
+                break;
+            case DOWN:
+                y-=speed;
+                break;
+            case LEFT:
+                x+=speed;
+                break;
+            case RIGHT:
+                x-=speed;
+                break;
+        }
+        if (CollisionwithWall()) {
+            index = 0;
+        }
+        if (CollisionwithWall(BombermanGame.Map)) {
+            index = 0;
+        }
     }
 }

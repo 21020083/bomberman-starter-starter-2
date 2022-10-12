@@ -118,19 +118,15 @@ public class Enemy extends MovingObject{
             switch (move) {
                 case UP:
                     y+=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
                     y-=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x-=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x+=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
