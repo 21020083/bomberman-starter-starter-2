@@ -60,7 +60,7 @@ public class Doll extends Enemy{
             if(count >= Sprite.SCALED_SIZE) {
                 int randNum = rand.nextInt(100);
                 if(randNum < 33){
-                    setSpeed(0);
+                    setSpeed(1);
                 } else if (randNum < 67) {
                     setSpeed(1);
                 } else if( randNum < 80){

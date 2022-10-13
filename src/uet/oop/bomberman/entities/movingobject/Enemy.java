@@ -77,19 +77,19 @@ public class Enemy extends MovingObject{
             y+ 28 > b.getY() && b.getY() + Sprite.SCALED_SIZE > y){
                 switch (move) {
                     case UP:
-                        y +=speed;
+                        y +=Math.abs(b.getY() + Sprite.SCALED_SIZE -y);
                         move = Move.DOWN;
                         break;
                     case DOWN:
-                        y -=speed;
+                        y -=Math.abs(b.getY()-y-28);;
                         move = Move.UP;
                         break;
                     case RIGHT:
-                        x-=speed;
+                        x-=Math.abs(b.getX()-x-28);;
                         move = Move.LEFT;
                         break;
                     case LEFT:
-                        x+=speed;
+                        x+=Math.abs(b.getX()+Sprite.SCALED_SIZE-x);;
                         move = Move.RIGHT;
                         break;
                 }
