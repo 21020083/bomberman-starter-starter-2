@@ -101,6 +101,19 @@ public class Oneal extends  Enemy{
             int dy = Math.abs((y-b.getY())/Sprite.SCALED_SIZE);
             if(dy + dx < 4) {
                 bombDetected = true;
+                if(dx == 0) {
+                    if(b.getY() < y) {
+                        move = Move.UP;
+                    } else if(b.getY() > y) {
+                        move = Move.DOWN;
+                    }
+                } else if(dy == 0) {
+                    if(b.getX() < x) {
+                        move = Move.RIGHT;
+                    } else if (b.getX() > x) {
+                        move = Move.LEFT;
+                    }
+                }
                 Moveaway();
                 break;
             }
@@ -109,23 +122,76 @@ public class Oneal extends  Enemy{
     public void Moveaway() {
         switch (move) {
             case UP:
-                y+=speed;
-                break;
-            case DOWN:
                 y-=speed;
                 break;
-            case LEFT:
-                x+=speed;
+            case DOWN:
+                y+=speed;
                 break;
-            case RIGHT:
+            case LEFT:
                 x-=speed;
                 break;
+            case RIGHT:
+                x+=speed;
+                break;
         }
-        if (CollisionwithWall()) {
+        if (CollisionwithWall(BombermanGame.Map) && CollisionwithWall()) {
             index = 0;
         }
-        if (CollisionwithWall(BombermanGame.Map)) {
-            index = 0;
+
+    }
+    public  boolean CollisionwithWall() {
+        if(x < Sprite.SCALED_SIZE || y < Sprite.SCALED_SIZE || x > (BombermanGame.WIDTH - 2) *
+                Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
+            switch (move) {
+                case UP:
+                    y +=speed;
+                    break;
+                case DOWN:
+                    y -=speed;
+                    break;
+                case RIGHT:
+                    x-=speed;
+                    break;
+                case LEFT:
+                    x+=speed;
+                    break;
+            }
+            return true;
         }
+        return false;
+    }
+    public  boolean CollisionwithWall(int[][] Map) {
+        int topleftX = (x+6)/Sprite.SCALED_SIZE;
+        int topleftY = (y+6)/Sprite.SCALED_SIZE;
+
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int toprightY = (y+6)/Sprite.SCALED_SIZE;
+
+        int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+
+
+        if(BombermanGame.Map[topleftY][topleftX] != 1|| BombermanGame.Map[bottomrightY][bottomrightX] != 1 ||
+                BombermanGame.Map[toprightY][toprightX] != 1 || BombermanGame.Map[bottomleftY][bottomleftX] != 1) {
+            switch (move) {
+                case UP:
+                    y+=speed;
+                    break;
+                case DOWN:
+                    y-=speed;
+                    break;
+                case RIGHT:
+                    x-=speed;
+                    break;
+                case LEFT:
+                    x+=speed;
+                    break;
+            }
+            return true;
+        }
+        return false;
     }
 }

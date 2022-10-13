@@ -1,55 +1,33 @@
 package uet.oop.bomberman.entities.movingobject;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Brick;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class Kondoria extends Enemy{
-    private long curTime;
-    private long endTime;
+public class Doll extends Enemy{
     private int count = 0;
-
-
-    int leftX = x - Sprite.SCALED_SIZE;
-    int leftY = y;
-
-    int rightX = x + Sprite.SCALED_SIZE;
-    int rightY = y;
-
-    int upX = x;
-    int upY = y - Sprite.SCALED_SIZE;
-
-    int downX = x;
-    int downY = y + Sprite.SCALED_SIZE;
-
-    public Kondoria(int x, int y, Image img) {
+    private Random rand ;
+    public Doll(int x, int y, Image img) {
         super(x, y, img);
-        left.add(Sprite.kondoria_left1.getFxImage());
-        left.add(Sprite.kondoria_left2.getFxImage());
-        left.add(Sprite.kondoria_left3.getFxImage());
+        left.add(Sprite.doll_left1.getFxImage());
+        left.add(Sprite.doll_left2.getFxImage());
+        left.add(Sprite.doll_left3.getFxImage());
 
 
-        right.add(Sprite.kondoria_right1.getFxImage());
-        right.add(Sprite.kondoria_right2.getFxImage());
-        right.add(Sprite.kondoria_right3.getFxImage());
+        right.add(Sprite.doll_right1.getFxImage());
+        right.add(Sprite.doll_right2.getFxImage());
+        right.add(Sprite.doll_right3.getFxImage());
 
 
 
         index = 0;
         AniCount = 0;
         move = Move.RIGHT;
+        rand = new Random();
         setSpeed(1);
-        curTime = System.currentTimeMillis();
     }
-
-    @Override
     public void update() {
         if(alive) {
             switch (move) {
@@ -75,35 +53,46 @@ public class Kondoria extends Enemy{
             if(CollisionwithBomb(BombermanGame.bomberman.boms)){
                 index = 0;
             }
-            endTime = System.currentTimeMillis();
             count++;
             int dx = x / Sprite.SCALED_SIZE;
             int dy = y / Sprite.SCALED_SIZE;
+
+            if(count >= Sprite.SCALED_SIZE) {
+                int randNum = rand.nextInt(100);
+                if(randNum < 33){
+                    setSpeed(0);
+                } else if (randNum < 67) {
+                    setSpeed(1);
+                } else if( randNum < 80){
+                    setSpeed(2);
+                } else {
+                    setSpeed(3);
+                }
+            }
             if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
                 move = Move.values()[new Random().nextInt(Move.values().length)];
                 count = 0;
             }
         } else {
             AniCount++;
-            setImg(Sprite.kondoria_dead.getFxImage());
+            setImg(Sprite.doll_dead.getFxImage());
             if(AniCount > 30)
                 death = true;
         }
 
     }
-
     public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+6)/Sprite.SCALED_SIZE;
-        int topleftY = (y+6)/Sprite.SCALED_SIZE;
+        int topleftX = (x+3)/Sprite.SCALED_SIZE;
+        int topleftY = (y+3)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int toprightY = (y+6)/Sprite.SCALED_SIZE;
+        int toprightX = (x + Sprite.SCALED_SIZE-3)/Sprite.SCALED_SIZE;
+        int toprightY = (y+3)/Sprite.SCALED_SIZE;
 
-        int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
-        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.SCALED_SIZE-3)/Sprite.SCALED_SIZE;
 
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int bottomrightX = (x + Sprite.SCALED_SIZE-3)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.SCALED_SIZE-3)/Sprite.SCALED_SIZE;
 
 
         if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||

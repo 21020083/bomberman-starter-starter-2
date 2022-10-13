@@ -34,7 +34,7 @@ public class BombermanGame extends Application {
     public static ItemList items = new ItemList();
 
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
-    public Balloom balloom1 = new Balloom(12,2,Sprite.balloom_left3.getFxImage()) ;
+    public Balloom balloom1 = new Balloom(11,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom2 = new Balloom(10,2,Sprite.balloom_left3.getFxImage()) ;
     public Balloom balloom3 = new Balloom(13,6,Sprite.balloom_left3.getFxImage()) ;
 
@@ -88,6 +88,11 @@ public class BombermanGame extends Application {
         enemy.add(balloom3);
         enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
         enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
+        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
 
 
     }
