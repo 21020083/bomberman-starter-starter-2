@@ -83,6 +83,7 @@ public class Bomb extends Entity{
                 destroyBrick(BombermanGame.Map);
             } else if (AniCount <= 12) {
                 renderExplosion1(gc);
+                explodeBomb(BombermanGame.bomberman.boms);
             } else if (AniCount <= 18) {
                 renderExplosion2(gc);
                 explodeBomber(BombermanGame.bomberman);
@@ -283,6 +284,30 @@ public class Bomb extends Entity{
         if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
                 topleftY <= Sprite.SCALED_SIZE * (bottomLength+1) + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
             bomber.setAlive(false);
+        }
+    }
+    public void explodeBomb(List<Bomb> boms) {
+        for(Bomb b : boms) {
+            int topleftX = (b.getX() + 3);
+            int topleftY = (b.getY() + 3);
+
+            int toprightX = (b.getX() + Sprite.DEFAULT_SIZE + 12);
+            int toprightY = (b.getY() + 3);
+
+            int bottomleftX = (b.getX() + 3);
+            int bottomleftY = (b.getY() + Sprite.DEFAULT_SIZE + 12);
+
+            int bottomrightX = (b.getX() + Sprite.DEFAULT_SIZE + 12);
+            int bottomrightY = (b.getY() + Sprite.DEFAULT_SIZE + 12);
+
+            if (topleftX <= x + Sprite.SCALED_SIZE * (rightLength+1) && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
+                    topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
+                b.duration = 100;
+            }
+            if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
+                    topleftY <= Sprite.SCALED_SIZE * (bottomLength+1) + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
+                b.duration = 100;
+            }
         }
     }
 }

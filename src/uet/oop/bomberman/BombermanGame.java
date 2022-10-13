@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.item.ItemList;
 import uet.oop.bomberman.entities.movingobject.*;
-import uet.oop.bomberman.entities.movingobject.pathfinder.pathfinder;
+import uet.oop.bomberman.entities.movingobject.enemy.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.BufferedReader;

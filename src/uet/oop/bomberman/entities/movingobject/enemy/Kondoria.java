@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities.movingobject;
+package uet.oop.bomberman.entities.movingobject.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -6,12 +6,13 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Brick;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.movingobject.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Kondoria extends Enemy{
+public class Kondoria extends Enemy {
     private long curTime;
     private long endTime;
     private int count = 0;

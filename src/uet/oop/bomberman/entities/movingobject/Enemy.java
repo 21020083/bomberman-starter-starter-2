@@ -137,7 +137,7 @@ public class Enemy extends MovingObject{
 
         if (alive) {
             AniCount++;
-            if (AniCount > 9) {
+            if (AniCount > 12/speed) {
                 if (index >= 2)
                     index = 0;
                 else {
