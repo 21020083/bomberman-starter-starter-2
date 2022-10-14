@@ -15,6 +15,7 @@ public class Enemy extends MovingObject{
     protected final ArrayList<Image> right = new ArrayList<>();
     protected int index;
     protected int AniCount;
+    protected  int count = 0;
 
     public Enemy(int x, int y, Image img) {
         super(x, y, img);
@@ -159,4 +160,5 @@ public class Enemy extends MovingObject{
     public void update() {
 
     }
+
 }

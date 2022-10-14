@@ -15,7 +15,7 @@ import java.util.Random;
 public class Kondoria extends Enemy {
     private long curTime;
     private long endTime;
-    private int count = 0;
+
 
 
     int leftX = x - Sprite.SCALED_SIZE;

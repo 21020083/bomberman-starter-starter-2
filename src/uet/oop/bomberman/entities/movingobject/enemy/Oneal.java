@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.movingobject.pathfinder.pathfinder;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
+import java.util.Random;
 
 public class Oneal extends Enemy {
     private int count = 0;
@@ -57,15 +58,13 @@ public class Oneal extends Enemy {
 
     }
     public void followBomber(Bomber bomberman) {
-        int realX = pfinder.closedlist.get(count).col * Sprite.SCALED_SIZE;
-        int realY = pfinder.closedlist.get(count).row * Sprite.SCALED_SIZE;
-        if (realX == x && realY == y) {
-            if (count < pfinder.step - 1) {
-                count++;
-                if (count > pfinder.step - 5) {
-                    setSpeed(2);
-                }
-            } else {
+        int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
+        int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
+        int distance = disx+disy;
+        if(distance < 6) {
+            int realX = pfinder.closedlist.get(0).col * Sprite.SCALED_SIZE;
+            int realY = pfinder.closedlist.get(0).row * Sprite.SCALED_SIZE;
+            if (realX == x && realY == y) {
                 int dx = y / Sprite.SCALED_SIZE;
                 int dy = x / Sprite.SCALED_SIZE;
                 int topleftX = (bomberman.getX() + 6) / Sprite.SCALED_SIZE;
@@ -74,27 +73,22 @@ public class Oneal extends Enemy {
                 if (!pfinder.search()) {
                     alive = false;
                 }
-                count = 0;
+            } else if (realX < x) {
+                move_left();
+            } else if (realX > x) {
+                move_right();
+            } else if (realY > y) {
+                move_down();
+            } else {
+                move_up();
             }
-
-        } else if (realX < x) {
-            move_left();
-        } else if (realX > x) {
-            move_right();
-        } else if (realY > y) {
-            move_down();
+            if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
+                index = 0;
+            }
         } else {
-            move_up();
+            moveRandom();
         }
-        if (CollisionwithWall()) {
-            index = 0;
-        }
-        if (CollisionwithWall(BombermanGame.Map)) {
-            index = 0;
-        }
-        if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
-            index = 0;
-        }
+
     }
     public void detectBomb(List<Bomb> bombs){
         for(Bomb b : bombs)
@@ -146,16 +140,20 @@ public class Oneal extends Enemy {
                 Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
             switch (move) {
                 case UP:
-                    y +=speed;
+                    y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
-                    y -=speed;
+                    y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
@@ -176,24 +174,61 @@ public class Oneal extends Enemy {
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
-        if(BombermanGame.Map[topleftY][topleftX] != 1|| BombermanGame.Map[bottomrightY][bottomrightX] != 1 ||
-                BombermanGame.Map[toprightY][toprightX] != 1 || BombermanGame.Map[bottomleftY][bottomleftX] != 1) {
+        if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
+                Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
+            count = 0;
             switch (move) {
                 case UP:
                     y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
                     y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
         }
         return false;
+    }
+    public void moveRandom() {
+        switch (move) {
+            case UP:
+                move_up();
+                break;
+            case DOWN:
+                move_down();
+                break;
+            case LEFT:
+                move_left();
+                break;
+            case RIGHT:
+                move_right();
+                break;
+        }
+        if (CollisionwithWall()) {
+            index = 0;
+        }
+        if (CollisionwithWall(BombermanGame.Map)) {
+            index = 0;
+        }
+        if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+            index = 0;
+        }
+        count++;
+        int dx = x / Sprite.SCALED_SIZE;
+        int dy = y / Sprite.SCALED_SIZE;
+        if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
+            move = Move.values()[new Random().nextInt(Move.values().length)];
+            count = 0;
+        }
     }
 }
