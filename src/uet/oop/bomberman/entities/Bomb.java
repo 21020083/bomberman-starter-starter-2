@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Bomb extends Entity{
 
-    private List<Image> bomb = new ArrayList<>();
+    private final List<Image> bomb = new ArrayList<>();
     int leftx, lefty;
     int rightx, righty;
     int upx, upy;
@@ -23,7 +23,7 @@ public class Bomb extends Entity{
     private int rightLength = 0;
     private int topLength = 0;
     private int bottomLength = 0;
-    private List<Image> exploded = new ArrayList<>();
+    private final List<Image> exploded = new ArrayList<>();
     private int index;
     private int AniCount;
     public Bomb(int x, int y, Image img){
@@ -262,26 +262,26 @@ public class Bomb extends Entity{
         }
     }
     public void explodeEnemy(List<Enemy> enemy) {
-        for(int i = 0; i < enemy.size(); i++) {
-            int topleftX = (enemy.get(i).getX() + 6);
-            int topleftY = (enemy.get(i).getY() + 6);
+        for (Enemy value : enemy) {
+            int topleftX = (value.getX() + 6);
+            int topleftY = (value.getY() + 6);
 
-            int toprightX = (enemy.get(i).getX() + Sprite.DEFAULT_SIZE + 12);
-            int toprightY = (enemy.get(i).getY() + 6);
+            int toprightX = (value.getX() + Sprite.DEFAULT_SIZE + 12);
+            int toprightY = (value.getY() + 6);
 
-            int bottomleftX = (enemy.get(i).getX() + 6);
-            int bottomleftY = (enemy.get(i).getY() + Sprite.DEFAULT_SIZE + 12);
+            int bottomleftX = (value.getX() + 6);
+            int bottomleftY = (value.getY() + Sprite.DEFAULT_SIZE + 12);
 
-            int bottomrightX = (enemy.get(i).getX() + Sprite.DEFAULT_SIZE + 12);
-            int bottomrightY = (enemy.get(i).getY() + Sprite.DEFAULT_SIZE + 12);
+            int bottomrightX = (value.getX() + Sprite.DEFAULT_SIZE + 12);
+            int bottomrightY = (value.getY() + Sprite.DEFAULT_SIZE + 12);
 
             if (topleftX <= x + Sprite.SCALED_SIZE * rightLength && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
                     topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
-                enemy.get(i).setAlive(false);
+                value.setAlive(false);
             }
             if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
                     topleftY <= Sprite.SCALED_SIZE * bottomLength + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
-                enemy.get(i).setAlive(false);
+                value.setAlive(false);
             }
 
         }
