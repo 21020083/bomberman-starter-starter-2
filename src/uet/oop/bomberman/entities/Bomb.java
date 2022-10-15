@@ -40,7 +40,7 @@ public class Bomb extends Entity{
 
         AniCount = 0;
         index = 0;
-        length = 1;
+        length = 2;
 
         SetExplosion();
 
@@ -222,10 +222,32 @@ public class Bomb extends Entity{
         gc.drawImage(exploded.get(2),x,y);
     }
     public void destroyBrick(int[][] Map) {
-        int lx = (x-Sprite.SCALED_SIZE*(leftLength+1))/Sprite.SCALED_SIZE, ly = y/Sprite.SCALED_SIZE;
-        int rx = (x+Sprite.SCALED_SIZE*(rightLength+1))/Sprite.SCALED_SIZE, ry = y/Sprite.SCALED_SIZE;
-        int ux = x/Sprite.SCALED_SIZE, uy =(-Sprite.SCALED_SIZE*(topLength+1) + y)/Sprite.SCALED_SIZE;
-        int dx = x/Sprite.SCALED_SIZE, dy = (Sprite.SCALED_SIZE*(bottomLength+1) + y)/Sprite.SCALED_SIZE;
+        int lx,ly,rx,ry,ux,uy,dx,dy;
+        if(leftLength < length) {
+             lx = (x-Sprite.SCALED_SIZE*(leftLength+1))/Sprite.SCALED_SIZE;
+        } else {
+            lx = (x-Sprite.SCALED_SIZE*(leftLength))/Sprite.SCALED_SIZE;
+        }
+        ly = y/Sprite.SCALED_SIZE;
+        if(rightLength < length) {
+            rx = (x+Sprite.SCALED_SIZE*(rightLength+1))/Sprite.SCALED_SIZE;
+        } else {
+            rx = (x+Sprite.SCALED_SIZE*(rightLength))/Sprite.SCALED_SIZE;
+        }
+         ry = y/Sprite.SCALED_SIZE;
+         if(topLength < length) {
+             uy =(-Sprite.SCALED_SIZE*(topLength+1) + y)/Sprite.SCALED_SIZE;
+         } else {
+             uy =(-Sprite.SCALED_SIZE*(topLength) + y)/Sprite.SCALED_SIZE;
+         }
+         ux = x/Sprite.SCALED_SIZE;
+         dx = x/Sprite.SCALED_SIZE;
+         if(bottomLength < length)
+         {
+             dy = (Sprite.SCALED_SIZE*(bottomLength+1) + y)/Sprite.SCALED_SIZE;
+         } else {
+             dy = (Sprite.SCALED_SIZE*(bottomLength) + y)/Sprite.SCALED_SIZE;
+         }
         if(Map[ly][lx] == 2 || Map[ly][lx] == 3) {
             Map[ly][lx] = -1;
         }

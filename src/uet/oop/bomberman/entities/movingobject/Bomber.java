@@ -236,16 +236,16 @@ public class Bomber extends MovingObject {
     }
 
     public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+6)/Sprite.SCALED_SIZE;
+        int topleftX = (x+3)/Sprite.SCALED_SIZE;
         int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 6)/Sprite.SCALED_SIZE;
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 3)/Sprite.SCALED_SIZE;
         int toprightY = (y+6)/Sprite.SCALED_SIZE;
 
-        int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
         int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 6)/Sprite.SCALED_SIZE;
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 3)/Sprite.SCALED_SIZE;
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
 
