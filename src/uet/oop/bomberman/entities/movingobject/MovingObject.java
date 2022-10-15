@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public abstract class MovingObject extends Entity {
-    protected int speed = 3;
+    protected int speed ;
     protected boolean alive;
     protected boolean death;
     protected enum  Move{UP, LEFT, DOWN , RIGHT};

@@ -59,8 +59,8 @@ public class Bomber extends MovingObject {
 
         index = 0;
         AniCount = 0;
-        setSpeed(2);
-        BombAmount = 3;
+        setSpeed(1);
+        BombAmount = 1;
         BombCount = 0;
 
         up = false;
@@ -85,7 +85,7 @@ public class Bomber extends MovingObject {
             if(left) move_left();
             if(right) move_right();
             AniCount++;
-            if (AniCount > 12/speed){
+            if (AniCount > 5){
                 if (index >= 2)
                     index = 0;
                 else {

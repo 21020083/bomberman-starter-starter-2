@@ -81,18 +81,18 @@ public class BombermanGame extends Application {
         loadMap();
 
 
-        //enemy.add(balloom);
-        //enemy.add(kondoria);
+        enemy.add(balloom);
+        enemy.add(kondoria);
        // enemy.add(balloom1);
         //enemy.add(balloom2);
         //enemy.add(balloom3);
         //enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
         enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
-        //enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
-        //enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
-        //enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
-        //enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
-        //enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
+        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
+        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
 
 
     }

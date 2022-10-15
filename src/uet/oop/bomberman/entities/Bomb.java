@@ -40,7 +40,7 @@ public class Bomb extends Entity{
 
         AniCount = 0;
         index = 0;
-        length = 2;
+        length = 1;
 
         SetExplosion();
 

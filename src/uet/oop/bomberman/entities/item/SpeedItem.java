@@ -13,7 +13,7 @@ public class SpeedItem extends Item{
     @Override
     public void update() {
         if(contactWithPlayer(BombermanGame.bomberman) && !isPicked()) {
-            BombermanGame.bomberman.setSpeed(4);
+            BombermanGame.bomberman.setSpeed(3);
             setPicked(true);
         }
         if(isPicked()) {

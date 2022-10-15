@@ -49,20 +49,20 @@ public class Enemy extends MovingObject{
                 Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
             switch (move) {
                 case UP:
-                    y +=speed;
-                    move = Move.DOWN;
+                    y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
-                    y -=speed;
-                    move = Move.UP;
+                    y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x-=speed;
-                    move = Move.LEFT;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x+=speed;
-                    move = Move.RIGHT;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
@@ -101,13 +101,13 @@ public class Enemy extends MovingObject{
     }
 
     public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+6)/Sprite.SCALED_SIZE;
-        int topleftY = (y+6)/Sprite.SCALED_SIZE;
+        int topleftX = (x+3)/Sprite.SCALED_SIZE;
+        int topleftY = (y+3)/Sprite.SCALED_SIZE;
 
         int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int toprightY = (y+6)/Sprite.SCALED_SIZE;
+        int toprightY = (y+3)/Sprite.SCALED_SIZE;
 
-        int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
         int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
         int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
@@ -116,18 +116,23 @@ public class Enemy extends MovingObject{
 
         if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
                 Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
+            count = 0;
             switch (move) {
                 case UP:
                     y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case DOWN:
                     y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case RIGHT:
                     x-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
                 case LEFT:
                     x+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
                     break;
             }
             return true;
