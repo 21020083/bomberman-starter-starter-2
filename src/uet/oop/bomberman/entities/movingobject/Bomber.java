@@ -2,17 +2,12 @@ package uet.oop.bomberman.entities.movingobject;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb;
-import uet.oop.bomberman.entities.Brick;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Wall;
+
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -102,6 +97,9 @@ public class Bomber extends MovingObject {
             if(ContactwithEnemy(BombermanGame.enemy)) {
                 alive = false;
             }
+            if(CollisionwithBomb(boms)) {
+                index = 0;
+            }
         } else {
             AniCount++;
             if (AniCount < 9) setImg(dead.get(0));
@@ -120,70 +118,61 @@ public class Bomber extends MovingObject {
     public void eventHandle(Scene scene) {
         int centerX = (x+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
         int centerY = (y+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                switch(keyEvent.getCode()) {
-                    case W:
-                        up = true;
-                        moving = true;
-                        break;
-                    case S:
-                        down = true;
-                        moving = true;
-                        break;
-                    case A:
-                        left = true;
-                        moving = true;
-                        break;
-                    case D:
-                        right = true;
-                        moving = true;
-                        break;
+        scene.setOnKeyPressed(keyEvent -> {
+            switch(keyEvent.getCode()) {
+                case W:
+                    up = true;
+                    moving = true;
+                    break;
+                case S:
+                    down = true;
+                    moving = true;
+                    break;
+                case A:
+                    left = true;
+                    moving = true;
+                    break;
+                case D:
+                    right = true;
+                    moving = true;
+                    break;
 
-                    default:
-                        moving = false;
-                        break;
-                }
-
-
+                default:
+                    moving = false;
+                    break;
             }
 
 
         });
 
 
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                switch(keyEvent.getCode()) {
-                    case W:
-                        up = false;
-                        moving = false;
-                        break;
-                    case S:
-                        down = false;
-                        moving = false;
-                        break;
-                    case A:
-                        left = false;
-                        moving = false;
-                        break;
-                    case D:
-                        right = false;
-                        moving = false;
-                        break;
-                    case ENTER:
-                        if(BombCount < BombAmount) {
-                            boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
-                            BombCount++;
-                        }
-                    default:
-                        moving = false;
-                        break;
-                }
+        scene.setOnKeyReleased(keyEvent -> {
+            switch(keyEvent.getCode()) {
+                case W:
+                    up = false;
+                    moving = false;
+                    break;
+                case S:
+                    down = false;
+                    moving = false;
+                    break;
+                case A:
+                    left = false;
+                    moving = false;
+                    break;
+                case D:
+                    right = false;
+                    moving = false;
+                    break;
+                case ENTER:
+                    if(BombCount < BombAmount) {
+                        boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
+                        BombCount++;
+                    }
+                default:
+                    moving = false;
+                    break;
             }
-
         });
 
 
@@ -231,7 +220,19 @@ public class Bomber extends MovingObject {
     }
 
     @Override
-    public boolean CollisionwithBomb(List<Bomb> b) {
+    public boolean CollisionwithBomb(List<Bomb> boms) {
+        for(Bomb b : boms) {
+            if(x + 22 > b.getX() && b.getX() + 26 > x &&
+                    y+28 > b.getY() && y < b.getY()+28 && !b.isBombPass()){
+                moving = false;
+                if(up) y+=speed;
+                if(down) y-=speed;
+                if(left) x+=speed;
+                if(right) x-=speed;
+                return true;
+            }
+
+        }
         return false;
     }
 
@@ -277,4 +278,5 @@ public class Bomber extends MovingObject {
         }
         return false;
     }
+
 }

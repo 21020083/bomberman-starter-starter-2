@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.movingobject.Bomber;
 import uet.oop.bomberman.entities.movingobject.Enemy;
 import uet.oop.bomberman.entities.movingobject.MovingObject;
 import uet.oop.bomberman.graphics.Sprite;
@@ -26,6 +27,7 @@ public class Bomb extends Entity{
     private final List<Image> exploded = new ArrayList<>();
     private int index;
     private int AniCount;
+    private boolean bombPass;
     public Bomb(int x, int y, Image img){
         super(x, y, img);
 
@@ -41,10 +43,18 @@ public class Bomb extends Entity{
         AniCount = 0;
         index = 0;
         length = 2;
-
+        bombPass = true;
         SetExplosion();
 
 
+    }
+
+    public boolean isBombPass() {
+        return bombPass;
+    }
+
+    public void setBombPass(boolean bombPass) {
+        this.bombPass = bombPass;
     }
 
     public int getLength() {
@@ -64,6 +74,7 @@ public class Bomb extends Entity{
     public void render(GraphicsContext gc) {
         duration ++;
         if(duration <= 100) {
+            BombPass(BombermanGame.bomberman);
             AniCount++;
             if (AniCount > 9) {
                 if (index >= 2)
@@ -75,6 +86,7 @@ public class Bomb extends Entity{
             }
             setImg(bomb.get(index));
             gc.drawImage(img, x, y);
+
         } else {
 
             AniCount++;
@@ -330,6 +342,12 @@ public class Bomb extends Entity{
                     topleftY <= Sprite.SCALED_SIZE * (bottomLength+1) + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
                 b.duration = 100;
             }
+        }
+    }
+    public void BombPass(Bomber bomber){
+        if(x + 26 <bomber.getX() || x > bomber.getX() + 22 ||
+        y > bomber.getY()+28 || bomber.getY() > y +30) {
+            setBombPass(false);
         }
     }
 }

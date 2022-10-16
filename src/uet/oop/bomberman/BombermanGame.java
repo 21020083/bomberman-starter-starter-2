@@ -25,6 +25,7 @@ public class BombermanGame extends Application {
     public static final int WIDTH = 31;
     public static int[][] Map = new int [13][31];
     public static final int HEIGHT = 13;
+    public static boolean gameover = false;
     public String path = "/levels/level.txt";
     
     private GraphicsContext gc;
@@ -71,28 +72,29 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                bomberman.eventHandle(scene);
-                render();
-                update();
-
+                if(!gameover){
+                    bomberman.eventHandle(scene);
+                    render();
+                    update();
+                }
             }
         };
         timer.start();
         loadMap();
 
 
-        enemy.add(balloom);
+        //enemy.add(balloom);
         enemy.add(kondoria);
-       // enemy.add(balloom1);
-        //enemy.add(balloom2);
-        //enemy.add(balloom3);
-        //enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
-        enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
-        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
-        enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
-        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
-        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
-        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
+//        enemy.add(balloom1);
+//        enemy.add(balloom2);
+//        enemy.add(balloom3);
+//        enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
+//        enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
+//        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
+//       enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
+//        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
+//        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
+//        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
 
 
     }
@@ -124,6 +126,7 @@ public class BombermanGame extends Application {
                 }
                 i++;
             }
+            items.setDoor(29,11);
             in.close();
             br.close();
         }
