@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
@@ -24,14 +25,15 @@ public class BombermanGame extends Application {
     
     public static final int WIDTH = 31;
     public static int[][] Map = new int [13][31];
+    private int level = 1;
     public static final int HEIGHT = 13;
     public static boolean gameover = false;
-    public String path = "/levels/level.txt";
+    public String path;
     
     private GraphicsContext gc;
     private Canvas canvas;
     public static List<Enemy> enemy = new ArrayList<>();
-    public static Bomber bomberman = new Bomber(1,1,Sprite.player_right.getFxImage());
+    public static Bomber bomberman;
     public static ItemList items = new ItemList();
 
     public Balloom balloom = new Balloom(13,2,Sprite.balloom_left3.getFxImage()) ;
@@ -50,14 +52,18 @@ public class BombermanGame extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
-
-
+        Canvas menu = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        GraphicsContext menugc = menu.getGraphicsContext2D();
+        Group g1 = new Group(menu);
+        Scene s1 = new Scene(g1);
+        menugc.setFill(Color.BLUE);
+        menugc.fillRect(0,0,200,200);
         // Tao root container
-        Group root = new Group();
+        Pane root = new Pane();
         root.getChildren().add(canvas);
 
         // Tao scene
@@ -66,21 +72,28 @@ public class BombermanGame extends Application {
 
         // Them scene vao stage
         stage.setScene(scene);
+        stage.setTitle("BombermanGame");
 
         stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(!gameover){
-                    bomberman.eventHandle(scene);
-                    render();
-                    update();
+                bomberman.eventHandle(scene);
+                render();
+                update();
+                System.out.print(gameover);
+                if(gameover) {
+                    level++;
+                    loadMap();
+                    gameover = false;
                 }
             }
         };
         timer.start();
+
         loadMap();
+
 
 
         //enemy.add(balloom);
@@ -89,17 +102,21 @@ public class BombermanGame extends Application {
 //        enemy.add(balloom2);
 //        enemy.add(balloom3);
 //        enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
-//        enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
+ //         enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
 //        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
 //       enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
 //        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
 //        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
-//        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));
+//        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));Kondoria
 
 
     }
     public void loadMap() {
         try {
+            bomberman = new Bomber(1,1,Sprite.player_right_2.getFxImage());
+            stillObjects.clear();
+            brick.clear();
+            path = "/levels/level" + String.valueOf(level) + ".txt";
             InputStream in = getClass().getResourceAsStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
@@ -115,14 +132,21 @@ public class BombermanGame extends Application {
                     } else if (num == 2) {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                         brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
-                    } else if ( num == 3) {
+                    } else if (num == 3) {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                         brick.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         items.add(j,i);
+                    } else if (num == 4) {
+                        enemy.add(new Balloom(j,i,Sprite.balloom_left2.getFxImage()));
+                    } else if (num == 5) {
+                        enemy.add(new Kondoria(j,i,Sprite.kondoria_right1.getFxImage()));
                     } else {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     }
-                    Map[i][j] = num;
+                    if(num >= 4) {
+                        stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                        Map[i][j] = 1;
+                    } else Map[i][j] = num;
                 }
                 i++;
             }

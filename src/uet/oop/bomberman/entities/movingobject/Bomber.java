@@ -54,7 +54,7 @@ public class Bomber extends MovingObject {
 
         index = 0;
         AniCount = 0;
-        setSpeed(1);
+        setSpeed(2);
         BombAmount = 1;
         BombCount = 0;
 
@@ -116,8 +116,8 @@ public class Bomber extends MovingObject {
 
     }
     public void eventHandle(Scene scene) {
-        int centerX = (x+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
-        int centerY = (y+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
+        int centerX = (x+Sprite.DEFAULT_SIZE-5)/Sprite.SCALED_SIZE;
+        int centerY = (y+Sprite.DEFAULT_SIZE+3)/Sprite.SCALED_SIZE;
         scene.setOnKeyPressed(keyEvent -> {
             switch(keyEvent.getCode()) {
                 case W:
@@ -265,12 +265,12 @@ public class Bomber extends MovingObject {
 
         double centerX = x + Sprite.DEFAULT_SIZE;
         double centerY = y + Sprite.DEFAULT_SIZE;
-        double r1 = Sprite.DEFAULT_SIZE - 4;
+        double r1 = Sprite.DEFAULT_SIZE - 6;
 
         for(MovingObject e : Enemy) {
             double Ex = e.getX() +Sprite.DEFAULT_SIZE;
             double Ey = e.getY() + Sprite.DEFAULT_SIZE;
-            double r2 =Sprite.DEFAULT_SIZE;
+            double r2 =Sprite.DEFAULT_SIZE-6;
             double distance = Math.sqrt((centerX-Ex) * (centerX-Ex) + (centerY-Ey)*(centerY-Ey));
             if(distance <= r1 + r2) {
                 return true;

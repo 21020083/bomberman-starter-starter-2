@@ -17,7 +17,6 @@ public class Kondoria extends Enemy {
     private long endTime;
 
 
-
     int leftX = x - Sprite.SCALED_SIZE;
     int leftY = y;
 
@@ -41,7 +40,10 @@ public class Kondoria extends Enemy {
         right.add(Sprite.kondoria_right2.getFxImage());
         right.add(Sprite.kondoria_right3.getFxImage());
 
-
+        dead.add(Sprite.kondoria_dead.getFxImage());
+        dead.add(Sprite.mob_dead1.getFxImage());
+        dead.add(Sprite.mob_dead2.getFxImage());
+        dead.add(Sprite.mob_dead3.getFxImage());
 
         index = 0;
         AniCount = 0;
@@ -52,7 +54,7 @@ public class Kondoria extends Enemy {
 
     @Override
     public void update() {
-        if(alive) {
+        if (alive) {
             switch (move) {
                 case UP:
                     move_up();
@@ -70,26 +72,65 @@ public class Kondoria extends Enemy {
             if (CollisionwithWall()) {
                 index = 0;
             }
-            if (CollisionwithWall(BombermanGame.Map)) {
+            if(CollisionwithWall(BombermanGame.Map)) {
                 index = 0;
             }
-            if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+            if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
             endTime = System.currentTimeMillis();
-            count++;
-            int dx = x / Sprite.SCALED_SIZE;
-            int dy = y / Sprite.SCALED_SIZE;
-            if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
+            if ((endTime - curTime) / 1000 > 3) {
                 move = Move.values()[new Random().nextInt(Move.values().length)];
-                count = 0;
+                curTime = endTime;
             }
         } else {
             AniCount++;
-            setImg(Sprite.kondoria_dead.getFxImage());
-            if(AniCount > 30)
+            if (AniCount < 9) setImg(dead.get(0));
+            else if (AniCount < 18) setImg(dead.get(1));
+            else if (AniCount < 27) setImg(dead.get(2));
+            else if (AniCount < 36) setImg(dead.get(3));
+            else {
                 death = true;
+            }
         }
+    }
+    public  boolean CollisionwithWall(int[][] Map) {
+        int topleftX = (x+2)/Sprite.SCALED_SIZE;
+        int topleftY = (y+2)/Sprite.SCALED_SIZE;
 
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int toprightY = (y+2)/Sprite.SCALED_SIZE;
+
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+
+
+        if(Map[topleftY][topleftX] < 1|| Map[bottomrightY][bottomrightX] < 1 ||
+                Map[toprightY][toprightX] < 1 || Map[bottomleftY][bottomleftX] < 1){
+            count = 0;
+            switch (move) {
+                case UP:
+                    y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case DOWN:
+                    y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case RIGHT:
+                    x-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case LEFT:
+                    x+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -17,6 +17,7 @@ public class Balloom extends Enemy {
     private long curTime;
     private long endTime;
 
+
     public Balloom(int x, int y, Image img) {
         super(x, y, img);
         left.add(Sprite.balloom_left1.getFxImage());
@@ -41,7 +42,7 @@ public class Balloom extends Enemy {
 
     @Override
     public void update() {
-        if(alive){
+        if (alive) {
             switch (move) {
                 case UP:
                     move_up();
@@ -56,16 +57,22 @@ public class Balloom extends Enemy {
                     move_right();
                     break;
             }
-            if(CollisionwithWall()) {
+            if (CollisionwithWall()) {
                 index = 0;
             }
-            if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+            if (CollisionwithWall(BombermanGame.Map)) {
+                index = 0;
+            }
+            if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
             endTime = System.currentTimeMillis();
-            if((endTime-curTime)/1000 > 3){
+            count++;
+            int dx = x / Sprite.SCALED_SIZE;
+            int dy = y / Sprite.SCALED_SIZE;
+            if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
                 move = Move.values()[new Random().nextInt(Move.values().length)];
-                curTime = endTime;
+                count = 0;
             }
         } else {
             AniCount++;
@@ -77,7 +84,5 @@ public class Balloom extends Enemy {
                 death = true;
             }
         }
-
-
     }
 }

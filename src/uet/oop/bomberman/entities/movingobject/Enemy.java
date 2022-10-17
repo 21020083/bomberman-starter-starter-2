@@ -13,6 +13,7 @@ import java.util.Random;
 public class Enemy extends MovingObject{
     protected final ArrayList<Image> left  = new ArrayList<>();
     protected final ArrayList<Image> right = new ArrayList<>();
+    protected final ArrayList<Image> dead = new ArrayList<>();
     protected int index;
     protected int AniCount;
     protected  int count = 0;
@@ -74,8 +75,8 @@ public class Enemy extends MovingObject{
     public boolean CollisionwithBomb(List<Bomb> bombs) {
         for(Bomb b : bombs)
         {
-            if(b.getX() + Sprite.SCALED_SIZE > x && x + 28 > b.getX() &&
-            y+ 28 > b.getY() && b.getY() + Sprite.SCALED_SIZE > y){
+            if(b.getX() + Sprite.SCALED_SIZE > x && x + 32 > b.getX() &&
+            y+ 32 > b.getY() && b.getY() + Sprite.SCALED_SIZE > y){
                 switch (move) {
                     case UP:
                         y +=Math.abs(b.getY() + Sprite.SCALED_SIZE -y);
@@ -101,17 +102,17 @@ public class Enemy extends MovingObject{
     }
 
     public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+3)/Sprite.SCALED_SIZE;
-        int topleftY = (y+3)/Sprite.SCALED_SIZE;
+        int topleftX = (x+2)/Sprite.SCALED_SIZE;
+        int topleftY = (y+2)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int toprightY = (y+3)/Sprite.SCALED_SIZE;
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int toprightY = (y+2)/Sprite.SCALED_SIZE;
 
         int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
-        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
 
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
 
 
         if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
