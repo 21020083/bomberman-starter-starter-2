@@ -99,9 +99,10 @@ public class Bomb extends Entity{
             } else if (AniCount <= 18) {
                 renderExplosion2(gc);
                 explodeBomber(BombermanGame.bomberman);
+                explodeEnemy(BombermanGame.enemy);
             }
 
-            explodeEnemy(BombermanGame.enemy);
+
 
         }
     }
@@ -287,12 +288,12 @@ public class Bomb extends Entity{
             int bottomrightX = (value.getX() + Sprite.DEFAULT_SIZE + 12);
             int bottomrightY = (value.getY() + Sprite.DEFAULT_SIZE + 12);
 
-            if (topleftX <= x + Sprite.SCALED_SIZE * rightLength && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
+            if (topleftX <= x + Sprite.SCALED_SIZE * (rightLength+1) && toprightX >= x - Sprite.SCALED_SIZE * leftLength &&
                     topleftY <= y + Sprite.SCALED_SIZE && bottomleftY >= y) {
                 value.setAlive(false);
             }
             if (topleftX <= x + Sprite.SCALED_SIZE && toprightX >= x &&
-                    topleftY <= Sprite.SCALED_SIZE * bottomLength + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
+                    topleftY <= Sprite.SCALED_SIZE * (bottomLength+1) + y && bottomleftY >= -Sprite.SCALED_SIZE * topLength + y) {
                 value.setAlive(false);
             }
 

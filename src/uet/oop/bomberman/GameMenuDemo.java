@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,12 +19,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
+
+import javafx.scene.media.Media;
+
+import static uet.oop.bomberman.BombermanGame.imgView;
 
 public class GameMenuDemo extends Application {
 
@@ -45,6 +51,11 @@ public class GameMenuDemo extends Application {
 
         gameMenu = new GameMenu();
         gameMenu.setVisible(false);
+
+        Media bgm = new Media(new File("res/audio/03MainBGM.mp3").toURI().toString());
+        MediaPlayer med = new MediaPlayer(bgm);
+        med.setVolume(0.2);
+        med.play();
 
         root.getChildren().addAll(imgView, gameMenu);
 
@@ -73,8 +84,9 @@ public class GameMenuDemo extends Application {
         primaryStage.show();
     }
 
-    private class GameMenu extends Parent {
+    public static class GameMenu extends Parent {
         public GameMenu() {
+
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
 
@@ -95,6 +107,8 @@ public class GameMenuDemo extends Application {
                 ft.setToValue(0);
                 ft.setOnFinished(evt -> setVisible(false));
                 ft.play();
+                BombermanGame.inMenu = false;
+                imgView.setVisible(false);
             });
 
 
@@ -153,7 +167,7 @@ public class GameMenuDemo extends Application {
         }
     }
 
-    private static class MenuButton extends StackPane {
+    public static class MenuButton extends StackPane {
         private final Text text;
 
         public MenuButton(String name) {

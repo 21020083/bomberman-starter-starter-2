@@ -11,6 +11,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.List;
 import java.util.Random;
 
+import static uet.oop.bomberman.BombermanGame.bomberman;
+
 public class Oneal extends Enemy {
     private int count = 0;
     private boolean bombDetected = false;
@@ -31,20 +33,28 @@ public class Oneal extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         setSpeed(1);
-        pfinder.setup(y,x,BombermanGame.bomberman.getY()/
-                Sprite.SCALED_SIZE,BombermanGame.bomberman.getX()/Sprite.SCALED_SIZE);
-        alive = pfinder.search();
+        pfinder.setup(y,x, bomberman.getY()/
+                Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
     }
     public void update() {
         if(alive) {
             if(!bombDetected) {
-                detectBomb(BombermanGame.bomberman.boms);
-                followBomber(BombermanGame.bomberman);
+                detectBomb(bomberman.boms);
+                if(pfinder.search()) {
+                    followBomber(bomberman);
+                } else {
+                    moveRandom();
+                }
             } else {
                 moveaway++;
                 if(moveaway > 120) {
                     bombDetected = false;
                     moveaway = 0;
+                    int dx = y / Sprite.SCALED_SIZE;
+                    int dy = x / Sprite.SCALED_SIZE;
+                    int topleftX = (bomberman.getX() + 6) / Sprite.SCALED_SIZE;
+                    int topleftY = (bomberman.getY() + 6) / Sprite.SCALED_SIZE;
+                    pfinder.setup(dx, dy, topleftY, topleftX);;
                 }
                 Moveaway();
 
@@ -61,7 +71,7 @@ public class Oneal extends Enemy {
         int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
         int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
         int distance = disx+disy;
-        if(distance < 6) {
+        if(distance < 10) {
             int realX = pfinder.closedlist.get(0).col * Sprite.SCALED_SIZE;
             int realY = pfinder.closedlist.get(0).row * Sprite.SCALED_SIZE;
             if (realX == x && realY == y) {
@@ -85,10 +95,7 @@ public class Oneal extends Enemy {
             if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
-        } else {
-            moveRandom();
         }
-
     }
     public void detectBomb(List<Bomb> bombs){
         for(Bomb b : bombs)
@@ -160,45 +167,7 @@ public class Oneal extends Enemy {
         }
         return false;
     }
-    public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+6)/Sprite.SCALED_SIZE;
-        int topleftY = (y+6)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int toprightY = (y+6)/Sprite.SCALED_SIZE;
-
-        int bottomleftX = (x+6)/Sprite.SCALED_SIZE;
-        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
-
-
-        if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
-                Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
-            count = 0;
-            switch (move) {
-                case UP:
-                    y+=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
-                    break;
-                case DOWN:
-                    y-=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
-                    break;
-                case RIGHT:
-                    x-=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
-                    break;
-                case LEFT:
-                    x+=speed;
-                    move = Move.values()[new Random().nextInt(Move.values().length)];
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
     public void moveRandom() {
         switch (move) {
             case UP:
@@ -214,13 +183,10 @@ public class Oneal extends Enemy {
                 move_right();
                 break;
         }
-        if (CollisionwithWall()) {
-            index = 0;
-        }
         if (CollisionwithWall(BombermanGame.Map)) {
             index = 0;
         }
-        if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+        if(CollisionwithBomb(bomberman.boms)){
             index = 0;
         }
         count++;
@@ -230,5 +196,44 @@ public class Oneal extends Enemy {
             move = Move.values()[new Random().nextInt(Move.values().length)];
             count = 0;
         }
+    }
+    public  boolean CollisionwithWall(int[][] Map) {
+        int topleftX = (x+2)/Sprite.SCALED_SIZE;
+        int topleftY = (y+2)/Sprite.SCALED_SIZE;
+
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int toprightY = (y+2)/Sprite.SCALED_SIZE;
+
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
+
+
+        if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
+                Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
+            count = 0;
+            switch (move) {
+                case UP:
+                    y+=speed;
+                    move = Move.DOWN;
+                    break;
+                case DOWN:
+                    y-=speed;
+                    move = Move.UP;
+                    break;
+                case RIGHT:
+                    x-=speed;
+                    move = Move.LEFT;
+                    break;
+                case LEFT:
+                    x+=speed;
+                    move = Move.RIGHT;
+                    break;
+            }
+            return true;
+        }
+        return false;
     }
 }

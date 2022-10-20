@@ -1,10 +1,12 @@
 package uet.oop.bomberman.entities.movingobject;
 
+import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb;
 
@@ -136,6 +138,23 @@ public class Bomber extends MovingObject {
                     right = true;
                     moving = true;
                     break;
+                case ESCAPE: {
+                    if (!BombermanGame.gameMenu.isVisible()) {
+                        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), BombermanGame.gameMenu);
+                        ft.setFromValue(0);
+                        ft.setToValue(1);
+                        BombermanGame.gameMenu.setVisible(true);
+                        ft.play();
+                        BombermanGame.inMenu = true;
+                    }
+                    else {
+                        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), BombermanGame.gameMenu);
+                        ft.setFromValue(1);
+                        ft.setToValue(0);
+                        ft.setOnFinished(evt -> BombermanGame.gameMenu.setVisible(false));
+                        ft.play();
+                    }
+                }
 
                 default:
                     moving = false;
@@ -201,7 +220,6 @@ public class Bomber extends MovingObject {
     }
     @Override
     public void render(GraphicsContext gc) {
-        System.out.println(boms.size());
         gc.drawImage(img, x, y);
         boms.forEach(g->g.render(gc));
     }
