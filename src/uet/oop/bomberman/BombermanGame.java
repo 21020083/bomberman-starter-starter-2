@@ -225,8 +225,7 @@ public class BombermanGame {
     }
 
     public void render() {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.clearRect(0,0 ,WIDTH*Sprite.SCALED_SIZE,(HEIGHT)*Sprite.SCALED_SIZE);
         stillObjects.forEach(g->g.render(BombermanApp.gc));
         items.render(BombermanApp.gc);
         brick.forEach(g->g.render(BombermanApp.gc));
