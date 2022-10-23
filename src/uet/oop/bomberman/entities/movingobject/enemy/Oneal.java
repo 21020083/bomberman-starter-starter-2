@@ -14,10 +14,10 @@ import java.util.Random;
 import static uet.oop.bomberman.BombermanGame.bomberman;
 
 public class Oneal extends Enemy {
-    private int count = 0;
-    private boolean bombDetected = false;
-    private pathfinder pfinder = new pathfinder(BombermanGame.Map);
-    private int moveaway = 0;
+    protected int count = 0;
+    protected boolean bombDetected = false;
+    protected pathfinder pfinder = new pathfinder(BombermanGame.Map);
+    protected int moveaway = 0;
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
 

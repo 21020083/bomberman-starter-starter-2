@@ -138,7 +138,7 @@ public class BombermanGame {
             brick = new ArrayList<>();
             enemy = new ArrayList<>();
             items  = new ItemList();
-            path = "/levels/level1" + ".txt";
+            path = "/levels/level3" + ".txt";
             InputStream in = getClass().getResourceAsStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 

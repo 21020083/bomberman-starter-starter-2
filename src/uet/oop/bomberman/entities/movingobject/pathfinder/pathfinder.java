@@ -72,7 +72,9 @@ public class pathfinder {
             int col = Current.col;
             Current.checked = true;
             openlist.remove(Current);
-
+            if(End.solid){
+                return false;
+            }
             if(row - 1 > 0){
                 Opennode(nodes[row-1][col]);
             }
