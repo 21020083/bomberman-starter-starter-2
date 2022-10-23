@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BombermanApp extends Application {
+
+
     public static GraphicsContext gc;
     public static Canvas canvas;
     public static Scene Game;
@@ -47,6 +49,7 @@ public class BombermanApp extends Application {
     private Stage MenuStage;
     private Button Continue;
     private Button Start;
+    private AnimationTimer timer;
     public static void main(String[] args) {
         Application.launch(BombermanApp.class);
     }
@@ -55,7 +58,7 @@ public class BombermanApp extends Application {
         CreateMenu();
         stage = MenuStage;
         finalStage = stage;
-        stage.show();
+        finalStage.show();
         Start.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -70,19 +73,18 @@ public class BombermanApp extends Application {
 
                     finalStage.setScene(Game);
                     createStagescene();
-                    finalStage.show();
-
-
-                    AnimationTimer timer = new AnimationTimer() {
+                     timer = new AnimationTimer() {
                         @Override
                         public void handle(long l) {
-
-                            Gameplay.render();
-                            Gameplay.update();
-                            BombermanGame.bomberman.eventHandle(Game);
                             if (!BombermanGame.bomberman.isAlive()  || BombermanGame.Countdown < 0) {
                                 String res = "Game Over !!!";
                                 Gameover(res);
+                                Sound.stop();
+                                timer.stop();
+                            } else {
+                                Gameplay.render();
+                                Gameplay.update();
+                                BombermanGame.bomberman.eventHandle(Game);
                             }
                             if (BombermanGame.gameover) {
                                 BombermanGame.level++;
@@ -92,7 +94,6 @@ public class BombermanApp extends Application {
                         }
                     };
                     timer.start();
-
                 }
             }
         });
@@ -168,15 +169,34 @@ public class BombermanApp extends Application {
     }
     private void CreateStartButton() {
         InputStream input = getClass().getResourceAsStream("/button/start.png");
+        InputStream input1 = getClass().getResourceAsStream("/button/arrow.png");
 
         Image image = new Image(input);
+        Image arrow = new Image(input1);
         ImageView imageView = new ImageView(image);
+        ImageView imageViewArrow = new ImageView(arrow);
+        imageViewArrow.setFitHeight(16);
+        imageViewArrow.setPreserveRatio(true);
         Start = new Button("", imageView);
         Start.setStyle("-fx-background-color: #000000; ");
 
-        MenuPane.getChildren().add(Start);
+        Button Arrow = new Button("", imageViewArrow);
+        Arrow.setStyle("-fx-background-color: #000000; ");
+        Arrow.setLayoutX(425);
+        Arrow.setLayoutY(350);
+        Arrow.setVisible(false);
+
+        MenuPane.getChildren().addAll(Start,Arrow);
         Start.setLayoutX(430);
         Start.setLayoutY(350);
+        Start.setOnMouseEntered(mouseEvent -> {
+            Start.setTranslateX(20);
+            Arrow.setVisible(true);
+        });
+        Start.setOnMouseExited(mouseEvent -> {
+            Start.setTranslateX(0);
+            Arrow.setVisible(false);
+        });
     }
     private void CreateContinueButton() {
         InputStream input = getClass().getResourceAsStream("/button/continue.png");
@@ -201,11 +221,13 @@ public class BombermanApp extends Application {
 
         textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
         textOver.setFill(Color.WHITE);
+
         Rectangle rec = new Rectangle(Menu_Width,Menu_Height);
         rec.setFill(Color.BLACK);
 
         Root.getChildren().addAll(rec,textOver);
         gameRoot.getChildren().add(Root);
+
         FadeTransition ft = new FadeTransition(new Duration(3000),Game.getRoot());
         ft.setFromValue(1);
         ft.setToValue(0);
@@ -213,21 +235,29 @@ public class BombermanApp extends Application {
         ft.play();
     }
     private void createStagescene() {
+
         String res = "STAGE " + String.valueOf(BombermanGame.level);
         Text textOver = new Text(300, 240, res);
 
         textOver.setFont(Font.font("Arial", FontWeight.BOLD, 80));
         textOver.setFill(Color.WHITE);
+
         Rectangle rec = new Rectangle(Menu_Width,Menu_Height);
         rec.setFill(Color.BLACK);
+
         Group st = new Group();
         st.getChildren().addAll(rec,textOver);
         gameRoot.getChildren().addAll(st);
-        FadeTransition ft = new FadeTransition(new Duration(2000),st);
+        Sound.Startstage();
+
+
+        FadeTransition ft = new FadeTransition(new Duration(4200),st);
         ft.setFromValue(1);
         ft.setToValue(1);
         ft.setOnFinished(evt-> st.setVisible(false));
         ft.play();
+
+
 
     }
 }

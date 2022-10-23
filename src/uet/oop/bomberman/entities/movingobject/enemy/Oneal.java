@@ -33,31 +33,17 @@ public class Oneal extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         setSpeed(1);
-        pfinder.setup(y,x, bomberman.getY()/
-                Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
+
     }
     public void update() {
         if(alive) {
-            if(!bombDetected) {
+            pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, bomberman.getY()/
+                    Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
+            if(!bombDetected && pfinder.search()) {
                 detectBomb(bomberman.boms);
-                if(pfinder.search()) {
-                    followBomber(bomberman);
-                } else {
-                    moveRandom();
-                }
+                followBomber(bomberman);
             } else {
-                moveaway++;
-                if(moveaway > 120) {
-                    bombDetected = false;
-                    moveaway = 0;
-                    int dx = y / Sprite.SCALED_SIZE;
-                    int dy = x / Sprite.SCALED_SIZE;
-                    int topleftX = (bomberman.getX() + 6) / Sprite.SCALED_SIZE;
-                    int topleftY = (bomberman.getY() + 6) / Sprite.SCALED_SIZE;
-                    pfinder.setup(dx, dy, topleftY, topleftX);;
-                }
-                Moveaway();
-
+                moveRandom();
             }
         } else {
             AniCount++;
@@ -74,16 +60,7 @@ public class Oneal extends Enemy {
         if(distance < 10) {
             int realX = pfinder.closedlist.get(0).col * Sprite.SCALED_SIZE;
             int realY = pfinder.closedlist.get(0).row * Sprite.SCALED_SIZE;
-            if (realX == x && realY == y) {
-                int dx = y / Sprite.SCALED_SIZE;
-                int dy = x / Sprite.SCALED_SIZE;
-                int topleftX = (bomberman.getX() + 6) / Sprite.SCALED_SIZE;
-                int topleftY = (bomberman.getY() + 6) / Sprite.SCALED_SIZE;
-                pfinder.setup(dx, dy, topleftY, topleftX);
-                if (!pfinder.search()) {
-                    alive = false;
-                }
-            } else if (realX < x) {
+             if (realX < x) {
                 move_left();
             } else if (realX > x) {
                 move_right();
@@ -95,6 +72,8 @@ public class Oneal extends Enemy {
             if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
+        } else {
+            moveRandom();
         }
     }
     public void detectBomb(List<Bomb> bombs){
@@ -119,6 +98,8 @@ public class Oneal extends Enemy {
                 }
                 Moveaway();
                 break;
+            } else {
+                bombDetected = false;
             }
         }
     }
@@ -197,43 +178,5 @@ public class Oneal extends Enemy {
             count = 0;
         }
     }
-    public  boolean CollisionwithWall(int[][] Map) {
-        int topleftX = (x+2)/Sprite.SCALED_SIZE;
-        int topleftY = (y+2)/Sprite.SCALED_SIZE;
 
-        int toprightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
-        int toprightY = (y+2)/Sprite.SCALED_SIZE;
-
-        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
-        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
-
-        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
-        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 14)/Sprite.SCALED_SIZE;
-
-
-        if(Map[topleftY][topleftX] != 1|| Map[bottomrightY][bottomrightX] != 1 ||
-                Map[toprightY][toprightX] != 1 || Map[bottomleftY][bottomleftX] != 1){
-            count = 0;
-            switch (move) {
-                case UP:
-                    y+=speed;
-                    move = Move.DOWN;
-                    break;
-                case DOWN:
-                    y-=speed;
-                    move = Move.UP;
-                    break;
-                case RIGHT:
-                    x-=speed;
-                    move = Move.LEFT;
-                    break;
-                case LEFT:
-                    x+=speed;
-                    move = Move.RIGHT;
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
 }
