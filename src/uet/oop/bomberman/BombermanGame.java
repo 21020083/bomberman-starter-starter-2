@@ -43,17 +43,18 @@ public class BombermanGame {
     public static int Score = 0;
     public static int Countdown = 181*60;
     public static int level = 1;
+    public static int health = 3;
     public String path;
     
 
 
     public static GameMenuDemo.GameMenu gameMenu;
     public static ImageView imgView;
-    public static List<Enemy> enemy;
+    public static List<Enemy> enemy = new ArrayList<>();
     public static Bomber bomberman;
-    public static ItemList items;
-    public List<Entity> stillObjects;
-    private List<Brick> brick;
+    public static ItemList items = new ItemList();
+    public List<Entity> stillObjects = new ArrayList<>();
+    private List<Brick> brick = new ArrayList<>();
 
 
 
@@ -130,13 +131,12 @@ public class BombermanGame {
     public BombermanGame() {
         loadMap();
         bomberman = new Bomber(1,1,Sprite.player_right_2.getFxImage());
-        enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
     }
     public void loadMap() {
         try {
-            stillObjects = new ArrayList<>();
-            brick = new ArrayList<>();
-            enemy = new ArrayList<>();
+            stillObjects.clear();
+            brick.clear();
+            enemy.clear();
             items  = new ItemList();
             path = "/levels/level3" + ".txt";
             InputStream in = getClass().getResourceAsStream(path);

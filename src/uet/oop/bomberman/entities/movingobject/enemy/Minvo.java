@@ -128,7 +128,7 @@ public class Minvo extends Enemy {
         int posx = x/Sprite.SCALED_SIZE;
         int posy = y/Sprite.SCALED_SIZE;
 
-        if(Math.abs(posx - bomberPosx) + Math.abs(posy - bomberPosy) < 4) {
+        if(Math.abs(posx - bomberPosx) + Math.abs(posy - bomberPosy) < 3) {
             detectPlayer = true;
         }
     }

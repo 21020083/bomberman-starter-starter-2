@@ -82,6 +82,7 @@ public class BombermanApp extends Application {
                                 Sound.stop();
                                 timer.stop();
                             } else {
+                                update();
                                 Gameplay.render();
                                 Gameplay.update();
                                 BombermanGame.bomberman.eventHandle(Game);
@@ -118,7 +119,7 @@ public class BombermanApp extends Application {
         textList.add(textS);
         textList.add(textT);
 
-        Score = new Text(130, posY, String.valueOf(BombermanGame.Score));
+        Score = new Text(70, posY, String.valueOf(BombermanGame.Score));
         Score.setFill(Color.WHITE);
         Score.setFont(new Font(20));
 
@@ -145,7 +146,16 @@ public class BombermanApp extends Application {
         textLeft.setFont(new Font(20));
         textList.add(textLeft);
 
+        health = new Text(440, posY, String.valueOf(BombermanGame.health));
+        health.setFill(Color.WHITE);
+        health.setFont(new Font(20));
+        textList.add(health);
 
+
+    }
+    public void update() {
+        Score.setText(String.valueOf(BombermanGame.Score));
+        time.setText(String.valueOf(BombermanGame.Countdown-- / 60));
     }
     private void InitStage() {
         canvas = new Canvas(Sprite.SCALED_SIZE * BombermanGame.WIDTH, Sprite.SCALED_SIZE * (BombermanGame.HEIGHT + 2));

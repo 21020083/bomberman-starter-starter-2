@@ -54,6 +54,7 @@ public class Sound {
         media = new Media(new File(startStage).toURI().toString());
         player = new MediaPlayer(media);
         player.play();
+        player.setVolume(0.2);
     }
 
 }

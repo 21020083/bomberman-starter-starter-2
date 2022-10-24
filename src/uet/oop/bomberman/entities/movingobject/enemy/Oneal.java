@@ -14,6 +14,7 @@ import java.util.Random;
 import static uet.oop.bomberman.BombermanGame.bomberman;
 
 public class Oneal extends Enemy {
+    private boolean searching = true;
     protected int count = 0;
     protected boolean bombDetected = false;
     protected pathfinder pfinder = new pathfinder(BombermanGame.Map);
@@ -37,11 +38,17 @@ public class Oneal extends Enemy {
     }
     public void update() {
         if(alive) {
-            pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, bomberman.getY()/
-                    Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
-            if(!bombDetected && pfinder.search()) {
+            int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
+            int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
+            int distance = disx+disy;
+            if(searching)
+            {
+                pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, bomberman.getY()/
+                        Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
+            }
+            if(distance < 6 && !bombDetected && pfinder.search()) {
                 detectBomb(bomberman.boms);
-                followBomber(bomberman);
+                followBomber();
             } else {
                 moveRandom();
             }
@@ -53,28 +60,32 @@ public class Oneal extends Enemy {
         }
 
     }
-    public void followBomber(Bomber bomberman) {
-        int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
-        int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
-        int distance = disx+disy;
-        if(distance < 10) {
-            int realX = pfinder.closedlist.get(0).col * Sprite.SCALED_SIZE;
-            int realY = pfinder.closedlist.get(0).row * Sprite.SCALED_SIZE;
-             if (realX < x) {
-                move_left();
+    public void followBomber() {
+            searching = false;
+            int realX = pfinder.closedlist.get(0).col*Sprite.SCALED_SIZE;
+            int realY = pfinder.closedlist.get(0).row*Sprite.SCALED_SIZE;
+             if (realX == x) {
+                 if(realY < y) {
+                     move_up();
+                 } else if(realY > y) {
+                     move_down();
+                 } else searching = true;
             } else if (realX > x) {
-                move_right();
-            } else if (realY > y) {
-                move_down();
-            } else {
-                move_up();
+                 if(realY == y) {
+                     move_right();
+                 } else if(realY < y){
+                     move_up();
+                 } else move_down();
+            } else{
+                 if(realY == y) {
+                     move_left();
+                 } else if(realY < y){
+                     move_up();
+                 } else move_down();
             }
             if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
-        } else {
-            moveRandom();
-        }
     }
     public void detectBomb(List<Bomb> bombs){
         for(Bomb b : bombs)
