@@ -11,13 +11,17 @@ public class ItemList {
     List<Item> Itemlist = new ArrayList<>();
     public void add(int x, int y) {
         Random rand = new Random();
-        int r = rand.nextInt(100);
+        int r = rand.nextInt(200);
         if(r < 33) {
             Itemlist.add(new SpeedItem(x,y, Sprite.powerup_speed.getFxImage()));
         } else if(r < 66) {
             Itemlist.add(new FlameItem(x,y, Sprite.powerup_flames.getFxImage()));
-        } else {
+        } else if(r < 99){
             Itemlist.add(new BombItem(x,y, Sprite.powerup_bombs.getFxImage()));
+        } else if(r < 132) {
+            Itemlist.add(new FlamePass(x,y, Sprite.powerup_flamepass.getFxImage()));
+        } else if(r < 166) {
+            Itemlist.add(new BombItem(x,y, Sprite.powerup_bombpass.getFxImage()));
         }
     }
     public void setDoor(int x, int y) {

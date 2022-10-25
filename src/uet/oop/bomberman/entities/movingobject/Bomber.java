@@ -17,16 +17,24 @@ import java.util.List;
 
 public class Bomber extends MovingObject {
 
+    public static boolean bombPass = false;
+    public static boolean FlamePass = false;
+    public static boolean WallPass = false;
+
     private boolean up, down, left, right;
+
     private final ArrayList<Image> up_movement = new ArrayList<>();
     private final ArrayList<Image> down_movement = new ArrayList<>();
     private final ArrayList<Image> left_movement = new ArrayList<>();
     private final ArrayList<Image> right_movement = new ArrayList<>();
     private final ArrayList<Image> dead = new ArrayList<>();
+
     public List<Bomb> boms = new ArrayList<>();
+
     private int BombAmount;
     private int BombCount;
     private int index;
+
     private double AniCount;
     private boolean moving = false;
 
@@ -99,7 +107,7 @@ public class Bomber extends MovingObject {
             if(ContactwithEnemy(BombermanGame.enemy)) {
                 alive = false;
             }
-            if(CollisionwithBomb(boms)) {
+            if(CollisionwithBomb(boms) && !bombPass) {
                 index = 0;
             }
         } else {

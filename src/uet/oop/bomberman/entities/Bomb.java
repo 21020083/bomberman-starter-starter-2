@@ -95,7 +95,9 @@ public class Bomb extends Entity{
                 destroyBrick(BombermanGame.Map);
             } else if (AniCount <= 12) {
                 renderExplosion1(gc);
-                explodeBomb(BombermanGame.bomberman.boms);
+                if(!Bomber.FlamePass) {
+                    explodeBomb(BombermanGame.bomberman.boms);
+                }
             } else if (AniCount <= 18) {
                 renderExplosion2(gc);
                 explodeBomber(BombermanGame.bomberman);
