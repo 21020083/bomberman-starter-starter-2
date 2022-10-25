@@ -43,6 +43,7 @@ public class BombermanGame {
     public static int Score = 0;
     public static int Countdown = 181*60;
     public static int level = 1;
+    public static final int Maxlevel = 3;
     public static int health = 3;
     public String path;
     
@@ -139,7 +140,7 @@ public class BombermanGame {
         brick.clear();
         enemy.clear();
         items  = new ItemList();
-        path = "/levels/level3" + ".txt";
+        path = "/levels/level" + level +  ".txt";
     }
     public void reset(){
         Countdown = 181*60;

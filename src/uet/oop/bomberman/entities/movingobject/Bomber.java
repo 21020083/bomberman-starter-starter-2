@@ -109,6 +109,12 @@ public class Bomber extends MovingObject {
             else if (AniCount < 27) setImg(dead.get(2));
             else {
                 death = true;
+                if(BombermanGame.health-- > 0) {
+                    setX(Sprite.SCALED_SIZE);
+                    setY(Sprite.SCALED_SIZE);
+                    alive = true;
+                    setImg(Sprite.player_right_2.getFxImage());
+                }
             }
         }
         if(!boms.isEmpty() && boms.get(0).duration > 130 ) {

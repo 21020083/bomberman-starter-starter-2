@@ -76,22 +76,24 @@ public class BombermanApp extends Application {
                      timer = new AnimationTimer() {
                         @Override
                         public void handle(long l) {
-                            if (BombermanGame.bomberman.isDeath()  || BombermanGame.Countdown < 0) {
+                            if (BombermanGame.health == 0 || BombermanGame.Countdown < 0) {
                                 String res = "Game Over !!!";
                                 Gameover(res);
                                 Sound.stop();
-                                timer.stop();
+
+                            } else if (BombermanGame.nextStage) {
+                                try {
+                                    initNextStage();
+                                } catch (FileNotFoundException e) {
+                                    throw new RuntimeException(e);
+                                }
                             } else {
                                 update();
                                 Gameplay.render();
                                 Gameplay.update();
                                 BombermanGame.bomberman.eventHandle(Game);
                             }
-                            if (BombermanGame.nextStage) {
-                                BombermanGame.level++;
-                                String res = "YOU WIN !!!";
-                                Gameover(res);
-                            }
+
                         }
                     };
                     timer.start();
@@ -104,6 +106,19 @@ public class BombermanApp extends Application {
         Gameplay = new BombermanGame();
         Gameplay.Score = 0;
         Gameplay.level = 1;
+    }
+    public void initNextStage() throws FileNotFoundException {
+        if(BombermanGame.level == BombermanGame.Maxlevel) {
+            Gameover(" YOU WIN ");
+        } else {
+            BombermanGame.nextStage = false;
+            BombermanGame.level++;
+            createStagescene();
+            Gameplay.loadMap();
+            BombermanGame.bomberman.setX(Sprite.SCALED_SIZE);
+            BombermanGame.bomberman.setY(Sprite.SCALED_SIZE);
+        }
+
     }
     public void createTextScene() {
         textList.clear();
@@ -229,6 +244,7 @@ public class BombermanApp extends Application {
         MenuPane.setBackground(new Background(backMenu));
     }
     private void Gameover(String s) {
+        timer.stop();
         Group Root = new Group();
         Text textOver = new Text(250, 240, s);
 
