@@ -22,7 +22,7 @@ public class Door extends Item{
     @Override
     public void update() {
         if(contactWithPlayer(BombermanGame.bomberman) && BombermanGame.enemy.isEmpty()){
-            BombermanGame.gameover = true;
+            BombermanGame.nextStage = true;
         }
     }
 }

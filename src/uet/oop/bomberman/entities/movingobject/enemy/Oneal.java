@@ -41,8 +41,7 @@ public class Oneal extends Enemy {
             int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
             int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
             int distance = disx+disy;
-            if(searching)
-            {
+            if(searching) {
                 pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, bomberman.getY()/
                         Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
             }
@@ -51,6 +50,7 @@ public class Oneal extends Enemy {
                 followBomber();
             } else {
                 moveRandom();
+                detectBomb(bomberman.boms);
             }
         } else {
             AniCount++;

@@ -72,11 +72,11 @@ public class BombermanApp extends Application {
                     }
 
                     finalStage.setScene(Game);
-                    createStagescene();
+
                      timer = new AnimationTimer() {
                         @Override
                         public void handle(long l) {
-                            if (!BombermanGame.bomberman.isAlive()  || BombermanGame.Countdown < 0) {
+                            if (BombermanGame.bomberman.isDeath()  || BombermanGame.Countdown < 0) {
                                 String res = "Game Over !!!";
                                 Gameover(res);
                                 Sound.stop();
@@ -87,7 +87,7 @@ public class BombermanApp extends Application {
                                 Gameplay.update();
                                 BombermanGame.bomberman.eventHandle(Game);
                             }
-                            if (BombermanGame.gameover) {
+                            if (BombermanGame.nextStage) {
                                 BombermanGame.level++;
                                 String res = "YOU WIN !!!";
                                 Gameover(res);
@@ -106,48 +106,49 @@ public class BombermanApp extends Application {
         Gameplay.level = 1;
     }
     public void createTextScene() {
+        textList.clear();
         int posY = 460;
         Text textS = new Text(30, posY, "Score: ");
         Text textT = new Text(230, posY, "Time: ");
 
-        textS.setFill(Color.WHITE);
+        textS.setFill(Color.BLACK);
         textS.setFont(new Font(20));
 
-        textT.setFill(Color.WHITE);
+        textT.setFill(Color.BLACK);
         textT.setFont(new Font(20));
 
         textList.add(textS);
         textList.add(textT);
 
-        Score = new Text(70, posY, String.valueOf(BombermanGame.Score));
-        Score.setFill(Color.WHITE);
+        Score = new Text(100, posY, String.valueOf(BombermanGame.Score));
+        Score.setFill(Color.BLACK);
         Score.setFont(new Font(20));
 
         textList.add(Score);
 
         time = new Text(290, posY, String.valueOf(BombermanGame.Countdown / 60));
-        time.setFill(Color.WHITE);
+        time.setFill(Color.BLACK);
         time.setFont(new Font(20));
 
         textList.add(time);
 
         Text textL = new Text(600, posY, "Level: ");
-        textL.setFill(Color.WHITE);
+        textL.setFill(Color.BLACK);
         textL.setFont(new Font(20));
         textList.add(textL);
 
         stage = new Text(670, posY, String.valueOf(BombermanGame.level));
-        stage.setFill(Color.WHITE);
+        stage.setFill(Color.BLACK);
         stage.setFont(new Font(20));
         textList.add(stage);
 
         Text textLeft = new Text(400, posY, "Left: ");
-        textLeft.setFill(Color.WHITE);
+        textLeft.setFill(Color.BLACK);
         textLeft.setFont(new Font(20));
         textList.add(textLeft);
 
         health = new Text(440, posY, String.valueOf(BombermanGame.health));
-        health.setFill(Color.WHITE);
+        health.setFill(Color.BLACK);
         health.setFont(new Font(20));
         textList.add(health);
 
@@ -156,6 +157,7 @@ public class BombermanApp extends Application {
     public void update() {
         Score.setText(String.valueOf(BombermanGame.Score));
         time.setText(String.valueOf(BombermanGame.Countdown-- / 60));
+        health.setText(String.valueOf(BombermanGame.health));
     }
     private void InitStage() {
         canvas = new Canvas(Sprite.SCALED_SIZE * BombermanGame.WIDTH, Sprite.SCALED_SIZE * (BombermanGame.HEIGHT + 2));
@@ -166,6 +168,7 @@ public class BombermanApp extends Application {
         gameRoot.getChildren().addAll(textList);
 
         Game = new Scene(gameRoot, Sprite.SCALED_SIZE * BombermanGame.WIDTH, Sprite.SCALED_SIZE * (BombermanGame.HEIGHT + 2), Color.BLACK);
+        createStagescene();
     }
 
     private void CreateMenu() {

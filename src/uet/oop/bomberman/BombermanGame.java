@@ -39,7 +39,7 @@ public class BombermanGame {
 
     public static boolean inMenu = false;
 
-    public static boolean gameover = false;
+    public static boolean nextStage = false;
     public static int Score = 0;
     public static int Countdown = 181*60;
     public static int level = 1;
@@ -131,14 +131,25 @@ public class BombermanGame {
     public BombermanGame() {
         loadMap();
         bomberman = new Bomber(1,1,Sprite.player_right_2.getFxImage());
+        bomberman.setX(Sprite.SCALED_SIZE);
+        bomberman.setY(Sprite.SCALED_SIZE);
+    }
+    public void init() {
+        stillObjects.clear();
+        brick.clear();
+        enemy.clear();
+        items  = new ItemList();
+        path = "/levels/level3" + ".txt";
+    }
+    public void reset(){
+        Countdown = 181*60;
+        health = 3;
+
     }
     public void loadMap() {
         try {
-            stillObjects.clear();
-            brick.clear();
-            enemy.clear();
-            items  = new ItemList();
-            path = "/levels/level3" + ".txt";
+            reset();
+            init();
             InputStream in = getClass().getResourceAsStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
@@ -216,16 +227,11 @@ public class BombermanGame {
         updateMap();
         bomberman.update();
         items.update();
-        System.out.println(Map[1][4]);
-        if(bomberman.isDeath()) {
-            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        }
-
-
     }
 
     public void render() {
-        gc.clearRect(0,0 ,WIDTH*Sprite.SCALED_SIZE,(HEIGHT)*Sprite.SCALED_SIZE);
+        gc.setFill(Color.SILVER);
+        gc.fillRect(0,0 ,WIDTH*Sprite.SCALED_SIZE,(HEIGHT+2)*Sprite.SCALED_SIZE);
         stillObjects.forEach(g->g.render(BombermanApp.gc));
         items.render(BombermanApp.gc);
         brick.forEach(g->g.render(BombermanApp.gc));
