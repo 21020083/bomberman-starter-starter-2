@@ -16,6 +16,7 @@ public class Enemy extends MovingObject{
     protected final ArrayList<Image> dead = new ArrayList<>();
     protected int index;
     protected int AniCount;
+    protected int Point;
     protected  int count = 0;
 
     public Enemy(int x, int y, Image img) {

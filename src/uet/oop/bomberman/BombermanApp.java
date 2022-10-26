@@ -265,6 +265,8 @@ public class BombermanApp extends Application {
     }
     private void createStagescene() {
 
+        Sound.stop();
+
         String res = "STAGE " + String.valueOf(BombermanGame.level);
         Text textOver = new Text(300, 240, res);
 
@@ -283,7 +285,11 @@ public class BombermanApp extends Application {
         FadeTransition ft = new FadeTransition(new Duration(4200),st);
         ft.setFromValue(1);
         ft.setToValue(1);
-        ft.setOnFinished(evt-> st.setVisible(false));
+        ft.setOnFinished(evt-> {
+            gameRoot.getChildren().remove(st);
+            Sound.stop();
+            Sound.play(Sound.BGM);
+        });
         ft.play();
 
 

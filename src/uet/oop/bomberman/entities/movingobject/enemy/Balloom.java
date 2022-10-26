@@ -14,9 +14,6 @@ import java.util.Random;
 
 public class Balloom extends Enemy {
     private List<Image> dead = new ArrayList<>();
-    private long curTime;
-    private long endTime;
-
 
     public Balloom(int x, int y, Image img) {
         super(x, y, img);
@@ -37,7 +34,7 @@ public class Balloom extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         setSpeed(1);
-        curTime = System.currentTimeMillis();
+        Point = 100;
     }
 
     @Override
@@ -66,7 +63,6 @@ public class Balloom extends Enemy {
             if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
             }
-            endTime = System.currentTimeMillis();
             count++;
             int dx = x / Sprite.SCALED_SIZE;
             int dy = y / Sprite.SCALED_SIZE;
@@ -82,6 +78,7 @@ public class Balloom extends Enemy {
             else if (AniCount < 36) setImg(dead.get(3));
             else {
                 death = true;
+                BombermanGame.Score+= Point;
             }
         }
     }

@@ -25,6 +25,7 @@ public class Sound {
                 try {
                     media = new Media(new File(sound).toURI().toString());
                     player = new MediaPlayer(media);
+                    player.setVolume(0.4);
                     if(player.getStatus() != MediaPlayer.Status.PLAYING) {
                         loopInf();
                     }
@@ -37,7 +38,9 @@ public class Sound {
 
     }
     public static void stop() {
-        player.stop();
+        if(player != null) {
+            player.stop();
+        }
     }
 
     public static void loopInf(){

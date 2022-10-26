@@ -107,8 +107,10 @@ public class Bomber extends MovingObject {
             if(ContactwithEnemy(BombermanGame.enemy)) {
                 alive = false;
             }
-            if(CollisionwithBomb(boms) && !bombPass) {
-                index = 0;
+            if(!bombPass) {
+                if(CollisionwithBomb(boms)){
+                    index = 0;
+                }
             }
         } else {
             AniCount++;
@@ -132,8 +134,8 @@ public class Bomber extends MovingObject {
 
     }
     public void eventHandle(Scene scene) {
-        int centerX = (x+Sprite.DEFAULT_SIZE-5)/Sprite.SCALED_SIZE;
-        int centerY = (y+Sprite.DEFAULT_SIZE+3)/Sprite.SCALED_SIZE;
+        int centerX = (x+Sprite.DEFAULT_SIZE-3)/Sprite.SCALED_SIZE;
+        int centerY = (y+Sprite.DEFAULT_SIZE)/Sprite.SCALED_SIZE;
         scene.setOnKeyPressed(keyEvent -> {
             switch(keyEvent.getCode()) {
                 case W:
@@ -198,7 +200,7 @@ public class Bomber extends MovingObject {
                     moving = false;
                     break;
                 case ENTER:
-                    if(BombCount < BombAmount) {
+                    if(BombCount < BombAmount && !movingInsideWall(BombermanGame.Map)) {
                         boms.add(new Bomb(centerX, centerY, Sprite.bomb.getFxImage()));
                         BombCount++;
                     }
@@ -281,15 +283,26 @@ public class Bomber extends MovingObject {
         int bottomrightX = (x + Sprite.DEFAULT_SIZE + 3)/Sprite.SCALED_SIZE;
         int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
 
-
-        if(Map[topleftY][topleftX] != 1 || Map[bottomrightY][bottomrightX] != 1 || Map[toprightY][toprightX] != 1 ||
-                Map[bottomleftY][bottomleftX] != 1){
-            moving = false;
-            if(up) y+=speed;
-            if(down) y-=speed;
-            if(left) x+=speed;
-            if(right) x-=speed;
-            return true;
+        if(!WallPass){
+            if(Map[topleftY][topleftX] != 1 || Map[bottomrightY][bottomrightX] != 1 || Map[toprightY][toprightX] != 1 ||
+                    Map[bottomleftY][bottomleftX] != 1){
+                moving = false;
+                if(up) y+=speed;
+                if(down) y-=speed;
+                if(left) x+=speed;
+                if(right) x-=speed;
+                return true;
+            }
+        } else {
+            if(Map[topleftY][topleftX] == 0 || Map[bottomrightY][bottomrightX] == 0 || Map[toprightY][toprightX] == 0 ||
+                    Map[bottomleftY][bottomleftX] == 0){
+                moving = false;
+                if(up) y+=speed;
+                if(down) y-=speed;
+                if(left) x+=speed;
+                if(right) x-=speed;
+                return true;
+            }
         }
         return false;
     }
@@ -297,18 +310,39 @@ public class Bomber extends MovingObject {
 
         double centerX = x + Sprite.DEFAULT_SIZE;
         double centerY = y + Sprite.DEFAULT_SIZE;
-        double r1 = Sprite.DEFAULT_SIZE - 6;
+        double r1 = Sprite.DEFAULT_SIZE;
 
         for(MovingObject e : Enemy) {
             double Ex = e.getX() +Sprite.DEFAULT_SIZE;
             double Ey = e.getY() + Sprite.DEFAULT_SIZE;
-            double r2 =Sprite.DEFAULT_SIZE-6;
+            double r2 = Sprite.DEFAULT_SIZE-6;
             double distance = Math.sqrt((centerX-Ex) * (centerX-Ex) + (centerY-Ey)*(centerY-Ey));
             if(distance <= r1 + r2) {
                 return true;
             }
         }
         return false;
+    }
+    public boolean movingInsideWall(int[][] Map) {
+
+        int topleftX = (x+3)/Sprite.SCALED_SIZE;
+        int topleftY = (y+6)/Sprite.SCALED_SIZE;
+
+        int toprightX = (x + Sprite.DEFAULT_SIZE + 3)/Sprite.SCALED_SIZE;
+        int toprightY = (y+6)/Sprite.SCALED_SIZE;
+
+        int bottomleftX = (x+3)/Sprite.SCALED_SIZE;
+        int bottomleftY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+
+        int bottomrightX = (x + Sprite.DEFAULT_SIZE + 3)/Sprite.SCALED_SIZE;
+        int bottomrightY = (y + Sprite.DEFAULT_SIZE + 12)/Sprite.SCALED_SIZE;
+
+        if(!WallPass) {
+            return false;
+        } else {
+            return Map[topleftY][topleftX] == 0 || Map[bottomrightY][bottomrightX] == 0 || Map[toprightY][toprightX] == 0 ||
+                    Map[bottomleftY][bottomleftX] == 0;
+        }
     }
 
 }

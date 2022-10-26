@@ -30,8 +30,14 @@ public class Oneal extends Enemy {
         right.add(Sprite.oneal_right2.getFxImage());
         right.add(Sprite.oneal_right3.getFxImage());
 
+        dead.add(Sprite.oneal_dead.getFxImage());
+        dead.add(Sprite.mob_dead1.getFxImage());
+        dead.add(Sprite.mob_dead2.getFxImage());
+        dead.add(Sprite.mob_dead3.getFxImage());
+
         index = 0;
         AniCount = 0;
+        Point = 200;
         move = Move.RIGHT;
         setSpeed(1);
 
@@ -54,9 +60,14 @@ public class Oneal extends Enemy {
             }
         } else {
             AniCount++;
-            setImg(Sprite.oneal_dead.getFxImage());
-            if(AniCount > 30)
+            if (AniCount < 9) setImg(dead.get(0));
+            else if (AniCount < 18) setImg(dead.get(1));
+            else if (AniCount < 27) setImg(dead.get(2));
+            else if (AniCount < 36) setImg(dead.get(3));
+            else {
                 death = true;
+                BombermanGame.Score+= Point;
+            }
         }
 
     }

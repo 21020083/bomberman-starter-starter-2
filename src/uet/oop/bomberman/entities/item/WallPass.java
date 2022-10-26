@@ -2,18 +2,17 @@ package uet.oop.bomberman.entities.item;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.movingobject.Bomber;
 
-public class Bombpass extends Item{
-    public Bombpass(int xUnit, int yUnit, Image img) {
+public class WallPass extends Item{
+    public WallPass(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
 
     @Override
     public void update() {
         if(contactWithPlayer(BombermanGame.bomberman)) {
-            Bomber.bombPass = true;
+            Bomber.WallPass = true;
             setPicked(true);
         }
     }

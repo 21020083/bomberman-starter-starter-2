@@ -10,8 +10,7 @@ import java.util.Random;
 public class ItemList {
     List<Item> Itemlist = new ArrayList<>();
     public void add(int x, int y) {
-        Random rand = new Random();
-        int r = rand.nextInt(200);
+        int r = new Random().nextInt(300);
         if(r < 33) {
             Itemlist.add(new SpeedItem(x,y, Sprite.powerup_speed.getFxImage()));
         } else if(r < 66) {
@@ -20,8 +19,10 @@ public class ItemList {
             Itemlist.add(new BombItem(x,y, Sprite.powerup_bombs.getFxImage()));
         } else if(r < 132) {
             Itemlist.add(new FlamePass(x,y, Sprite.powerup_flamepass.getFxImage()));
-        } else if(r < 166) {
-            Itemlist.add(new BombItem(x,y, Sprite.powerup_bombpass.getFxImage()));
+        } else if(r < 166){
+            Itemlist.add(new Bombpass(x,y, Sprite.powerup_bombpass.getFxImage()));
+        } else {
+            Itemlist.add(new WallPass(x, y, Sprite.powerup_wallpass.getFxImage()));
         }
     }
     public void setDoor(int x, int y) {

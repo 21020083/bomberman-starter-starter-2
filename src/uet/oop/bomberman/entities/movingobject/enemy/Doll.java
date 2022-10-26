@@ -20,12 +20,16 @@ public class Doll extends Enemy {
         right.add(Sprite.doll_right2.getFxImage());
         right.add(Sprite.doll_right3.getFxImage());
 
-
+        dead.add(Sprite.doll_dead.getFxImage());
+        dead.add(Sprite.mob_dead1.getFxImage());
+        dead.add(Sprite.mob_dead2.getFxImage());
+        dead.add(Sprite.mob_dead3.getFxImage());
 
         index = 0;
         AniCount = 0;
         move = Move.RIGHT;
         rand = new Random();
+        Point = 500;
         setSpeed(1);
     }
     public void update() {
@@ -75,9 +79,14 @@ public class Doll extends Enemy {
             }
         } else {
             AniCount++;
-            setImg(Sprite.doll_dead.getFxImage());
-            if(AniCount > 30)
+            if (AniCount < 9) setImg(dead.get(0));
+            else if (AniCount < 18) setImg(dead.get(1));
+            else if (AniCount < 27) setImg(dead.get(2));
+            else if (AniCount < 36) setImg(dead.get(3));
+            else {
                 death = true;
+                BombermanGame.Score+= Point;
+            }
         }
 
     }

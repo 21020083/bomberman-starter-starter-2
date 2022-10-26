@@ -49,6 +49,7 @@ public class Kondoria extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         setSpeed(1);
+        Point = 1000;
         curTime = System.currentTimeMillis();
     }
 
@@ -91,6 +92,7 @@ public class Kondoria extends Enemy {
             else if (AniCount < 36) setImg(dead.get(3));
             else {
                 death = true;
+                BombermanGame.Score+= Point;
             }
         }
     }

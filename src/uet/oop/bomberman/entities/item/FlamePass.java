@@ -10,7 +10,7 @@ public class FlamePass extends Item{
     }
     @Override
     public void update() {
-        if(contactWithPlayer(BombermanGame.bomberman) && !isPicked()) {
+        if(contactWithPlayer(BombermanGame.bomberman)) {
             Bomber.FlamePass = true;
             setPicked(true);
         }
