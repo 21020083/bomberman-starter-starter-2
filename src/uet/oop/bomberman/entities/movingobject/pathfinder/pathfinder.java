@@ -57,6 +57,22 @@ public class pathfinder {
             }
         }
     }
+    //setup de enemy di qua tuong
+    public void setup2(int startRow, int startCol, int endRow, int endCol){
+        reset();
+        Start = nodes[startRow][startCol];
+        End = nodes[endRow][endCol];
+        Current = Start;
+        openlist.add(Current);
+        for(int i = 0; i < BombermanGame.HEIGHT; i++) {
+            for(int j = 0; j < BombermanGame.WIDTH; j++) {
+                if(Map[i][j]== 0) {
+                    nodes[i][j].solid = true;
+                }
+                getCost(nodes[i][j]);
+            }
+        }
+    }
     public void getCost(Node node) {
         int dx = Math.abs(node.row- Start.row);
         int dy = Math.abs(node.col - Start.col);

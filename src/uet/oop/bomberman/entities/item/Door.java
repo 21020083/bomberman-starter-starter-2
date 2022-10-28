@@ -1,7 +1,9 @@
 package uet.oop.bomberman.entities.item;
 
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.entities.movingobject.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -9,6 +11,7 @@ public class Door extends Item{
     public Door(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
     }
+    private boolean stageClear = true;
     public boolean contactWithPlayer(Bomber b) {
         int dx = (b.getX()+6);
         int dy = (b.getY()+6);
@@ -21,8 +24,10 @@ public class Door extends Item{
 
     @Override
     public void update() {
-        if(contactWithPlayer(BombermanGame.bomberman) && BombermanGame.enemy.isEmpty()){
-            BombermanGame.nextStage = true;
+        if(contactWithPlayer(BombermanGame.bomberman) && BombermanGame.enemy.isEmpty() && stageClear){
+            Sound.stop();
+            Sound.Stageclear();
+            stageClear = false;
         }
     }
 }

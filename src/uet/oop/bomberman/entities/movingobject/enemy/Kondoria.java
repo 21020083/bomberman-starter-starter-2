@@ -17,18 +17,6 @@ public class Kondoria extends Enemy {
     private long endTime;
 
 
-    int leftX = x - Sprite.SCALED_SIZE;
-    int leftY = y;
-
-    int rightX = x + Sprite.SCALED_SIZE;
-    int rightY = y;
-
-    int upX = x;
-    int upY = y - Sprite.SCALED_SIZE;
-
-    int downX = x;
-    int downY = y + Sprite.SCALED_SIZE;
-
     public Kondoria(int x, int y, Image img) {
         super(x, y, img);
         left.add(Sprite.kondoria_left1.getFxImage());

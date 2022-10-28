@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static uet.oop.bomberman.BombermanGame.bomberman;
+
 public class Minvo extends Enemy {
     private int i = 0;
     private int count = 0;
     private boolean bombDetected = false;
     private pathfinder pfinder = new pathfinder(BombermanGame.Map);
-    private  boolean detectPlayer = false;
+
+    private boolean searching = true;
 
     public Minvo(int x, int y, Image img) {
         super(x, y, img);
@@ -41,20 +44,23 @@ public class Minvo extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         Point = 400;
-        setSpeed(1);
+        setSpeed(2);
     }
 
-    @Override
     public void update() {
         if(alive) {
-            if(!bombDetected && !detectPlayer) {
-                detectBomber(BombermanGame.bomberman);
-                detectBomb();
-                moveRandom();
+            int disx = Math.abs((x - bomberman.getX())/Sprite.SCALED_SIZE);
+            int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
+            int distance = disx+disy;
+            if(searching) {
+                int centerX = (bomberman.getY()+12)/ Sprite.SCALED_SIZE;
+                int centerY = (bomberman.getX()+12)/ Sprite.SCALED_SIZE;
+                pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, centerX,centerY);
+            }
+            if(distance < 4 && !bombDetected && pfinder.search()) {
+                followBomber();
             } else {
-                if(runAway(BombermanGame.bomberman)) {
-                    followPath();
-                } else moveRandom();
+                moveRandom();
             }
         } else {
             AniCount++;
@@ -66,97 +72,68 @@ public class Minvo extends Enemy {
                 death = true;
                 BombermanGame.Score+= Point;
             }
-
         }
 
     }
-
-    private boolean runAway(Bomber b) {
-        int col, row;
-        int dx = y/Sprite.SCALED_SIZE;
-        int dy = x/Sprite.SCALED_SIZE;
-        if(x <= b.getX()){
-            col = 1;
-            row = 1;
-            pfinder.setup(dx,dy,row,col);
-            while(!pfinder.search()  && col < dy ) {
-                row++;
-                pfinder.setup(dx,dy,row,col);
-                if(row > 11) {
-                    row = 1;
-                    col ++;
-                }
-            }
-        } else {
-            col = 30;
-            row = 1;
-            pfinder.setup(dx,dy,row,col);
-            while(!pfinder.search()  && col > dy + 1) {
-                row++;
-                pfinder.setup(dx,dy,row,col);
-                if(row > 11) {
-                    row = 1;
-                    col --;
-                }
-            }
-        }
-        return pfinder.search();
-    }
-
-    private void followPath() {
-        setSpeed(2);
-        int realX = pfinder.closedlist.get(i).col * Sprite.SCALED_SIZE;
-        int realY = pfinder.closedlist.get(i).row * Sprite.SCALED_SIZE;
-        if(realX == x){
-            if(realY == y) {
-                i++;
+    public void followBomber() {
+        searching = false;
+        int realX = pfinder.closedlist.get(0).col*Sprite.SCALED_SIZE;
+        int realY = pfinder.closedlist.get(0).row*Sprite.SCALED_SIZE;
+        if (realX == x) {
+            if(realY < y) {
+                move_up();
             } else if(realY > y) {
                 move_down();
-            } else move_up();
-        } else if (realX < x) {
-            if(realY == y) {
-                move_left();
-            } else if(realY > y) {
-                move_down();
-            } else move_up();
-        } else {
+            } else searching = true;
+        } else if (realX > x) {
             if(realY == y) {
                 move_right();
-            } else if (realY < y) {
+            } else if(realY < y){
+                move_up();
+            } else move_down();
+        } else{
+            if(realY == y) {
+                move_left();
+            } else if(realY < y){
                 move_up();
             } else move_down();
         }
-        if( i == pfinder.closedlist.size() - 2) {
-            detectPlayer = false;
-            i = 0;
-            setSpeed(1);
+        if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
+            index = 0;
+            bombDetected = true;
+
         }
     }
 
-    public void detectBomber(Bomber b) {
-        int bomberPosx = b.getX()/Sprite.SCALED_SIZE;
-        int bomberPosy = b.getY()/Sprite.SCALED_SIZE;
 
-        int posx = x/Sprite.SCALED_SIZE;
-        int posy = y/Sprite.SCALED_SIZE;
+    public  boolean CollisionwithWall() {
+        if(x < Sprite.SCALED_SIZE || y < Sprite.SCALED_SIZE || x > (BombermanGame.WIDTH - 2) *
+                Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
+            switch (move) {
+                case UP:
+                    y+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case DOWN:
+                    y-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case RIGHT:
+                    x-=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+                case LEFT:
+                    x+=speed;
+                    move = Move.values()[new Random().nextInt(Move.values().length)];
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
 
-        if(Math.abs(posx - bomberPosx) + Math.abs(posy - bomberPosy) < 2) {
-            detectPlayer = true;
-        }
-    }
-    public void detectBomb(){
-        for(Bomb b : BombermanGame.bomberman.boms)
-        {
-          int dx = Math.abs((x-b.getX())/Sprite.SCALED_SIZE);
-          int dy = Math.abs((y-b.getY())/Sprite.SCALED_SIZE);
-          if(dy + dx < 4) {
-              bombDetected = true;
-              return;
-          }
-        }
-        bombDetected = false;
-    }
     public void moveRandom() {
+
         switch (move) {
             case UP:
                 move_up();
@@ -174,7 +151,7 @@ public class Minvo extends Enemy {
         if (CollisionwithWall(BombermanGame.Map)) {
             index = 0;
         }
-        if(CollisionwithBomb(BombermanGame.bomberman.boms)){
+        if(CollisionwithBomb(bomberman.boms)){
             index = 0;
         }
         count++;
@@ -183,6 +160,7 @@ public class Minvo extends Enemy {
         if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
             move = Move.values()[new Random().nextInt(Move.values().length)];
             count = 0;
+            bombDetected = false;
         }
     }
 }

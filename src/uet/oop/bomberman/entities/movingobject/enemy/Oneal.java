@@ -48,15 +48,14 @@ public class Oneal extends Enemy {
             int disy = Math.abs((y-bomberman.getY())/Sprite.SCALED_SIZE);
             int distance = disx+disy;
             if(searching) {
-                pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, bomberman.getY()/
-                        Sprite.SCALED_SIZE, bomberman.getX()/Sprite.SCALED_SIZE);
+                int centerX = (bomberman.getY()+12)/ Sprite.SCALED_SIZE;
+                int centerY = (bomberman.getX()+12)/ Sprite.SCALED_SIZE;
+                pfinder.setup(y/Sprite.SCALED_SIZE,x/Sprite.SCALED_SIZE, centerX,centerY);
             }
-            if(distance < 6 && !bombDetected && pfinder.search()) {
-                detectBomb(bomberman.boms);
+            if(distance < 4 && !bombDetected && pfinder.search()) {
                 followBomber();
             } else {
                 moveRandom();
-                detectBomb(bomberman.boms);
             }
         } else {
             AniCount++;
@@ -96,55 +95,11 @@ public class Oneal extends Enemy {
             }
             if (CollisionwithBomb(BombermanGame.bomberman.boms)) {
                 index = 0;
-            }
-    }
-    public void detectBomb(List<Bomb> bombs){
-        for(Bomb b : bombs)
-        {
-            int dx = Math.abs((x-b.getX())/Sprite.SCALED_SIZE);
-            int dy = Math.abs((y-b.getY())/Sprite.SCALED_SIZE);
-            if(dy + dx < 4) {
                 bombDetected = true;
-                if(dx == 0) {
-                    if(b.getY() < y) {
-                        move = Move.UP;
-                    } else if(b.getY() > y) {
-                        move = Move.DOWN;
-                    }
-                } else if(dy == 0) {
-                    if(b.getX() < x) {
-                        move = Move.RIGHT;
-                    } else if (b.getX() > x) {
-                        move = Move.LEFT;
-                    }
-                }
-                Moveaway();
-                break;
-            } else {
-                bombDetected = false;
             }
-        }
     }
-    public void Moveaway() {
-        switch (move) {
-            case UP:
-                y-=speed;
-                break;
-            case DOWN:
-                y+=speed;
-                break;
-            case LEFT:
-                x-=speed;
-                break;
-            case RIGHT:
-                x+=speed;
-                break;
-        }
-        if (CollisionwithWall(BombermanGame.Map) && CollisionwithWall()) {
-            index = 0;
-        }
 
-    }
+
     public  boolean CollisionwithWall() {
         if(x < Sprite.SCALED_SIZE || y < Sprite.SCALED_SIZE || x > (BombermanGame.WIDTH - 2) *
                 Sprite.SCALED_SIZE || y > (BombermanGame.HEIGHT - 2) * Sprite.SCALED_SIZE) {
@@ -198,6 +153,7 @@ public class Oneal extends Enemy {
         if (count >= Sprite.SCALED_SIZE * 9 && (dx * Sprite.SCALED_SIZE == x || dy * Sprite.SCALED_SIZE == y)) {
             move = Move.values()[new Random().nextInt(Move.values().length)];
             count = 0;
+            bombDetected = false;
         }
     }
 

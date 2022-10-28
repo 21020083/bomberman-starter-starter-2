@@ -340,8 +340,8 @@ public class Bomber extends MovingObject {
         if(!WallPass) {
             return false;
         } else {
-            return Map[topleftY][topleftX] == 0 || Map[bottomrightY][bottomrightX] == 0 || Map[toprightY][toprightX] == 0 ||
-                    Map[bottomleftY][bottomleftX] == 0;
+            return Map[topleftY][topleftX] != 1 || Map[bottomrightY][bottomrightX] != 1  || Map[toprightY][toprightX] != 1  ||
+                    Map[bottomleftY][bottomleftX] != 1;
         }
     }
 

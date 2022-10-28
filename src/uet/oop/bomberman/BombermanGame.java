@@ -35,6 +35,7 @@ public class BombermanGame {
     
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
+    public static final int DEFAULT = 16;
     public static int[][] Map = new int [13][31];
 
     public static boolean inMenu = false;
@@ -53,9 +54,10 @@ public class BombermanGame {
     public static ImageView imgView;
     public static List<Enemy> enemy = new ArrayList<>();
     public static Bomber bomberman;
+    public static List<Brick> brick = new ArrayList<>();
     public static ItemList items = new ItemList();
     public List<Entity> stillObjects = new ArrayList<>();
-    private List<Brick> brick = new ArrayList<>();
+
 
 
 
@@ -140,7 +142,7 @@ public class BombermanGame {
         brick.clear();
         enemy.clear();
         items  = new ItemList();
-        path = "/levels/level" + level +  ".txt";
+        path = "/levels/level3" +  ".txt";
     }
     public void reset(){
         Countdown = 181*60;
@@ -177,6 +179,8 @@ public class BombermanGame {
                         enemy.add(new Oneal(j, i,Sprite.oneal_right1.getFxImage()));
                     } else if( num == 7) {
                         enemy.add(new Minvo(j , i, Sprite.minvo_right2.getFxImage()));
+                    } else if(num == 8) {
+                        enemy.add(new Ovape(j , i, Sprite.ovape_right1.getFxImage()));
                     } else {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     }
@@ -187,7 +191,7 @@ public class BombermanGame {
                 }
                 i++;
             }
-            items.setDoor(29,11);
+            items.setDoor();
             in.close();
             br.close();
         }

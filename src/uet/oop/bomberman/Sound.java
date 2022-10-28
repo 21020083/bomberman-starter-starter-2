@@ -15,6 +15,7 @@ public class Sound {
 
     public static String BGM = "res/audio/03MainBGM.mp3";
     public static String startStage = "res/audio/02StageStart.mp3";
+    private static final String Stageclear = "res/audio/05StageClear.mp3";
     private static Clip myClip;
     private static Media media;
     private static MediaPlayer player;
@@ -58,6 +59,18 @@ public class Sound {
         player = new MediaPlayer(media);
         player.play();
         player.setVolume(0.2);
+    }
+    public static void Stageclear() {
+        media = new Media(new File(Stageclear).toURI().toString());
+        player = new MediaPlayer(media);
+        player.play();
+        player.setVolume(0.2);
+        player.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                BombermanGame.nextStage = true;
+            }
+        });
     }
 
 }
