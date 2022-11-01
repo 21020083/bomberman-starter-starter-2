@@ -37,7 +37,7 @@ public class Kondoria extends Enemy {
         AniCount = 0;
         move = Move.RIGHT;
         setSpeed(1);
-        Point = 1000;
+        Point = 700;
         curTime = System.currentTimeMillis();
     }
 
