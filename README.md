@@ -3,6 +3,8 @@
 - NHÓM 20;
 - THÀNH VIÊN : PHẠM KHÔI NGUYÊN - MSV: 21020083;
 
+![image](https://user-images.githubusercontent.com/100278861/199188258-68bf78db-07da-4243-96cb-0beb5b9fdf37.png)
+
 
 ## Mô tả về các đối tượng trong trò chơi
 Nếu bạn đã từng chơi Bomberman, bạn sẽ cảm thấy quen thuộc với những đối tượng này. Chúng được được chia làm hai loại chính là nhóm đối tượng động (*Bomber*, *Enemy*, *Bomb*) và nhóm đối tượng tĩnh (*Grass*, *Wall*, *Brick*, *Door*, *Item*).
