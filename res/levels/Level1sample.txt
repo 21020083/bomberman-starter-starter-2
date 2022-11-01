@@ -1,38 +1,30 @@
-###############################
-#p     ** *  1 * 2 *  * * *   #
-# # # #*# # #*#*# # # #*#*#*# #
-#  x*     ***  *  1   * 2 * * #
-# # # # # #*# # #*#*# # # # #*#
-#f         x **  *  *   1     #
-# # # # # # # # # #*# #*# # # #
-#*  *      *  *      *        #
-# # # # #*# # # #*#*# # # # # #
-#*    **  *       *           #
-# #*# # # # # # #*# # # # # # #
-#           *   *  *          #
-###############################
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 1 1 2 1 1 1 2 2 1 2 4 2 1 1 2 1 1 1 2 1 2 1 2 1 2 1 1 2 1 0
+0 1 0 1 0 2 0 1 0 1 0 2 0 1 0 1 0 1 0 1 0 1 0 1 0 2 0 0 0 1 0
+0 1 1 3 2 2 2 1 2 1 2 2 2 1 2 1 1 1 1 1 1 1 1 1 2 2 1 2 1 1 0
+0 1 0 1 0 4 0 1 0 1 0 2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 1 0
+0 1 1 1 1 2 1 1 1 2 2 1 2 1 2 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1 0
+0 1 0 1 0 2 0 1 0 1 0 2 0 1 0 6 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+0 2 1 1 2 2 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 2 4 1 0
+0 1 0 1 0 2 0 1 0 1 0 2 0 1 0 1 0 2 0 1 0 1 0 1 0 1 0 0 0 1 0
+0 4 1 1 2 1 1 1 1 1 2 4 2 2 1 1 1 1 1 1 2 1 1 1 1 1 1 1 4 1 0
+0 1 0 2 0 1 0 1 0 1 0 2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+0 1 2 2 1 1 1 1 1 1 1 2 1 1 1 4 2 1 1 1 4 1 2 2 1 2 2 1 1 1 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 
 Mô tả cấu trúc tệp cấu hình màn chơi:
-1/ Dòng đầu tiên bao gồm 3 số nguyên L, R, C:
-L - số thứ tự màn chơi
-R - số hàng của bản đồ
-C - số cột của bản đồ
-
-2/ R dòng tiếp theo, mỗi dòng có C kí tự. Mỗi kí tự đại diện cho một đối tượng trên bản đồ:
-Tiles:
-# - Wall
-* - Brick
-x - Portal
-
-Character:
-p - Bomber
-1 - Balloon
-2 - Oneal
-
-Items:
-b - Bomb Item
-f - Flame Item
-s - Speed Item
-
-Kí tự khác các kí tự trên - Grass
+- Map là một ma trận 13 x 31.
+- Các chữ số đại diện cho 1 đối tượng xuất hiện trong Map trừ Bomber(Bomber mặc định Spawn ở
+vị trí (1,1) trong Map).
+- 0: đối tượng Wall
+- 1: Grass
+- 2: Brick
+- 3: Brick nhưng bên dưới có một Item ngẫu nhiên
+- 4: Ballom
+- 5: Kondoria
+- 6: Oneal
+- 7: Minvo
+- 8: Ovape
+- 9: Doll
+- Portal: được đặt dưới một đối tượng Brick ngẫu nhiên
