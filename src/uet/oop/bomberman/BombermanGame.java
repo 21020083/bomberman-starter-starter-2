@@ -42,7 +42,7 @@ public class BombermanGame {
 
     public static boolean nextStage = false;
     public static int Score = 0;
-    public static int Countdown = 181*60;
+    public static int Countdown = 210*60;
     public static int level = 1;
     public static final int Maxlevel = 3;
     public static int health = 3;
@@ -142,12 +142,11 @@ public class BombermanGame {
         brick.clear();
         enemy.clear();
         items  = new ItemList();
-        path = "/levels/level3" +  ".txt";
+        path = "/levels/level"  + level +  ".txt";
     }
     public void reset(){
-        Countdown = 181*60;
+        Countdown = 210*60;
         health = 3;
-
     }
     public void loadMap() {
         try {
@@ -181,6 +180,8 @@ public class BombermanGame {
                         enemy.add(new Minvo(j , i, Sprite.minvo_right2.getFxImage()));
                     } else if(num == 8) {
                         enemy.add(new Ovape(j , i, Sprite.ovape_right1.getFxImage()));
+                    } else if(num == 9) {
+                        enemy.add(new Doll(j, i , Sprite.doll_left2.getFxImage()));
                     } else {
                         stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                     }
