@@ -154,24 +154,6 @@ public class Bomber extends MovingObject {
                     right = true;
                     moving = true;
                     break;
-                case ESCAPE: {
-                    if (!BombermanGame.gameMenu.isVisible()) {
-                        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), BombermanGame.gameMenu);
-                        ft.setFromValue(0);
-                        ft.setToValue(1);
-                        BombermanGame.gameMenu.setVisible(true);
-                        ft.play();
-                        BombermanGame.inMenu = true;
-                    }
-                    else {
-                        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), BombermanGame.gameMenu);
-                        ft.setFromValue(1);
-                        ft.setToValue(0);
-                        ft.setOnFinished(evt -> BombermanGame.gameMenu.setVisible(false));
-                        ft.play();
-                    }
-                }
-
                 default:
                     moving = false;
                     break;

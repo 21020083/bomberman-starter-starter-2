@@ -192,7 +192,7 @@ public class BombermanApp extends Application {
         MenuStage = new Stage();
         MenuStage.setScene(Menu);
         createBackGround();
-        CreateContinueButton();
+        //CreateContinueButton();
         CreateStartButton();
     }
     private void CreateStartButton() {
@@ -211,12 +211,12 @@ public class BombermanApp extends Application {
         Button Arrow = new Button("", imageViewArrow);
         Arrow.setStyle("-fx-background-color: #000000; ");
         Arrow.setLayoutX(425);
-        Arrow.setLayoutY(350);
+        Arrow.setLayoutY(380);
         Arrow.setVisible(false);
 
         MenuPane.getChildren().addAll(Start,Arrow);
         Start.setLayoutX(430);
-        Start.setLayoutY(350);
+        Start.setLayoutY(380);
         Start.setOnMouseEntered(mouseEvent -> {
             Start.setTranslateX(20);
             Arrow.setVisible(true);

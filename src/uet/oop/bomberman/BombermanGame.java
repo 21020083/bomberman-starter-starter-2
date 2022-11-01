@@ -38,8 +38,6 @@ public class BombermanGame {
     public static final int DEFAULT = 16;
     public static int[][] Map = new int [13][31];
 
-    public static boolean inMenu = false;
-
     public static boolean nextStage = false;
     public static int Score = 0;
     public static int Countdown = 210*60;
@@ -47,10 +45,7 @@ public class BombermanGame {
     public static final int Maxlevel = 3;
     public static int health = 3;
     public String path;
-    
 
-
-    public static GameMenuDemo.GameMenu gameMenu;
     public static ImageView imgView;
     public static List<Enemy> enemy = new ArrayList<>();
     public static Bomber bomberman;
@@ -58,79 +53,6 @@ public class BombermanGame {
     public static ItemList items = new ItemList();
     public List<Entity> stillObjects = new ArrayList<>();
 
-
-
-
-
-
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        // Tao Canvas
-//        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-//        gc = canvas.getGraphicsContext2D();
-//        // Tao root container
-//        Pane root = new Pane();
-//        root.setPrefSize(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-//        InputStream is = Files.newInputStream(Paths.get("res/449096.jpg"));
-//        Image img = new Image(is);
-//        is.close();
-//
-//        imgView = new ImageView(img);
-//        imgView.setFitWidth(Sprite.SCALED_SIZE * WIDTH);
-//        imgView.setFitHeight(Sprite.SCALED_SIZE * HEIGHT);
-//
-//        gameMenu = new GameMenuDemo.GameMenu();
-//        gameMenu.setVisible(false);
-//
-//        root.getChildren().addAll(canvas,imgView,gameMenu);
-//
-//        // Tao scene
-//        Scene scene = new Scene(root);
-//
-//
-//        // Them scene vao stage
-//        stage.setScene(scene);
-//
-//        stage.setTitle("BombermanGame");
-//
-//        stage.show();
-//
-//        AnimationTimer timer = new AnimationTimer() {
-//            @Override
-//            public void handle(long l) {
-//                if(!inMenu) {
-//                    bomberman.eventHandle(scene);
-//                    render();
-//                    update();
-//                }
-//                if(gameover) {
-//                    level++;
-//                    loadMap();
-//                    gameover = false;
-//                }
-//            }
-//        };
-//        timer.start();
-//
-//        loadMap();
-//
-//
-//
-//        //enemy.add(balloom);
-//
-////        enemy.add(balloom1);
-////        enemy.add(balloom2);
-////        enemy.add(balloom3);
-////        enemy.add(new Minvo(9,9,Sprite.minvo_right2.getFxImage()));
-// //         enemy.add(new Oneal(28,1,Sprite.oneal_right1.getFxImage()));
-////        enemy.add(new Kondoria(5,1,Sprite.kondoria_right1.getFxImage()));
-////       enemy.add(new Kondoria(4,11,Sprite.kondoria_right1.getFxImage()));
-////        enemy.add(new Kondoria(13,6,Sprite.kondoria_right1.getFxImage()));
-////        enemy.add(new Kondoria(7,9,Sprite.kondoria_right1.getFxImage()));
-////        enemy.add(new Doll(4,11,Sprite.doll_left2.getFxImage()));Kondoria
-//
-//
-//    }
     public BombermanGame() {
         loadMap();
         bomberman = new Bomber(1,1,Sprite.player_right_2.getFxImage());
